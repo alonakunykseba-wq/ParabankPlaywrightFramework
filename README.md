@@ -27,8 +27,8 @@ docker run -p 8080:8080 parasoft/parabank
 ```
 
 **2. Access the Application:**
-*   UI: `http://localhost:8080/parabank`
-*   API Docs (Swagger): `http://localhost:8080/parabank/api-docs/index.html`
+*   UI: http://localhost:8080/parabank
+*   API Docs (Swagger): http://localhost:8080/parabank/api-docs/index.html
 
 ## 📝 Test Scope
-Please refer to the `TEST_PLAN.md` file for the complete breakdown of the 20 Core Test Cases covering Authentication, Account Management, Money Transfers, Loan Processing, and Transaction Filtering.
+Please refer to the [Test Plan](TEST_PLAN.md) for the complete breakdown of the 20 Core Test Cases covering Authentication, Account Management, Money Transfers, Loan Processing, and Transaction Filtering.
