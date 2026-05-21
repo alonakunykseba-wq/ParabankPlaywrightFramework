@@ -3,10 +3,10 @@ package com.parabank.setup;
 import com.microsoft.playwright.*;
 
 public class PlaywrightFactory {
-    private static ThreadLocal<Playwright> tlPlaywright = new ThreadLocal<>();
-    private static ThreadLocal<Browser> tlBrowser = new ThreadLocal<>();
-    private static ThreadLocal<BrowserContext> tlBrowserContext = new ThreadLocal<>();
-    private static ThreadLocal<Page> tlPage = new ThreadLocal<>();
+    private static final ThreadLocal<Playwright> tlPlaywright = new ThreadLocal<>();
+    private static final ThreadLocal<Browser> tlBrowser = new ThreadLocal<>();
+    private static final ThreadLocal<BrowserContext> tlBrowserContext = new ThreadLocal<>();
+    private static final ThreadLocal<Page> tlPage = new ThreadLocal<>();
 
     public static Playwright getPlaywright() {
         return tlPlaywright.get();
