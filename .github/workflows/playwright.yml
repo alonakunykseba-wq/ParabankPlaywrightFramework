@@ -1,0 +1,38 @@
+name: Playwright Tests
+
+# 1. THE TRIGGER: When should this pipeline run?
+on:
+  push:
+    branches: [ main ]      # Runs when code is merged to main
+  pull_request:
+    branches: [ main ]      # Runs when a PR is opened targeting main
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest  # 2. THE SERVER: Spin up a free Linux machine
+
+    steps:
+      # 3. DOWNLOAD YOUR CODE
+      - uses: actions/checkout@v4
+
+      # 4. INSTALL JAVA
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # 5. DOWNLOAD JAVA LIBRARIES (Playwright, TestNG, Faker)
+      - name: Build and install Maven dependencies
+        run: mvn -B install -DskipTests
+
+      # 6. INSTALL THE BROWSERS (Chrome, Firefox, Safari)
+      # The Linux machine needs the physical browsers installed to run the tests!
+      - name: Install Playwright Browsers and System Dependencies
+        run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
+
+      # 7. RUN THE TESTS
+      - name: Run TestNG Suite
+        run: mvn test
