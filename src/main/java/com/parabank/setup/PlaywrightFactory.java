@@ -1,6 +1,7 @@
 package com.parabank.setup;
 
 import com.microsoft.playwright.*;
+import com.parabank.utils.ConfigurationManager;
 
 public class PlaywrightFactory {
     private static final ThreadLocal<Playwright> tlPlaywright = new ThreadLocal<>();
@@ -44,7 +45,7 @@ public class PlaywrightFactory {
         tlBrowserContext.set(getBrowser().newContext());
         tlPage.set(getBrowserContext().newPage());
 
-        getPage().navigate("http://localhost:8080/parabank/index.htm");
+        getPage().navigate(ConfigurationManager.getProperty("baseUrl"));
         return getPage();
     }
 

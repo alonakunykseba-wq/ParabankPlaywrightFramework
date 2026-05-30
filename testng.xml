@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Parabank Playwright Suite" parallel="methods" thread-count="2" verbose="2">
-    <test name="Parabank Core Tests">
+    <test name="TC-01: verifyValidUserRegistrationTest">
         <classes>
-            <class name="com.parabank.tests.LoginTest"/>
+            <class name="com.parabank.tests.RegistrationTest">
+            <methods>
+                <include name ="verifyValidUserRegistrationTest"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TC-02: verifyInvalidRegistrationValidationsTest">
+        <classes>
+            <class name="com.parabank.tests.RegistrationTest">
+                <methods>
+                    <include name ="verifyInvalidRegistrationValidationsTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
