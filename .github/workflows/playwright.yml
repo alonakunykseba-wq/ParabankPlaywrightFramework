@@ -3,9 +3,9 @@ name: Playwright Tests
 # 1. THE TRIGGER: When should this pipeline run?
 on:
   push:
-    branches: [ main ]      # Runs when code is merged to main
+    branches: [ master ]      # Runs when code is merged to main
   pull_request:
-    branches: [ main ]      # Runs when a PR is opened targeting main
+    branches: [ master ]      # Runs when a PR is opened targeting main
   workflow_dispatch:
 
 # 2. THE SERVER: Spin up a free Linux machine
