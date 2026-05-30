@@ -6,38 +6,64 @@ This document outlines the 20 core test cases implemented in this hybrid automat
 ---
 
 ## Module 1: Authentication & Registration
-*   **Test 1 (UI):** Register a new user with valid data.
-*   **Test 2 (UI DataProvider):** Attempt registration with invalid/missing data (driven by an external JSON/Excel file).
+*   **Test 1 (UI):** "verifyValidUserRegistrationTest"
+    *   **Goal:** To confirm that a user can successfully register via the UI form and is immediately logged in.
+*   **Test 2 (UI DataProvider):** "verifyInvalidRegistrationValidationsTest"
+    *   **Goal:** To prove the frontend validation works correctly by attempting to register with missing required fields provided by an external JSON/Excel file.
+    
+## Module 2: Login
+*   **Test 3 (UI):** "verifyValidUserLoginTest"
+    *   **Goal:** To verify that an existing user can log in with valid credentials and access the accounts overview.
+*   **Test 4 (UI):** "verifyInvalidLoginCredentialsTest"
+    *   **Goal:** To verify that attempting to log in with an incorrect username or password displays the appropriate error message.
 
-## Module 2: Account Management
-*   **Test 3 (UI):** Open a new Checking account and verify the success message.
-*   **Test 4 (UI):** Open a new Savings account and verify UI updates in the Account Overview.
-*   **Test 5 (API):** GET customer accounts, choose any account, verify account details for a specific account ID, and assert the JSON schema.
-*   **Test 6 (API - Negative):** GET account details with a non-existing account ID and assert a `400` response is returned.
+## Module 3: Account Management
+*   **Test 5 (UI):** "verifyOpenNewCheckingAccountTest"
+    *   **Goal:** To verify the UI successfully creates a checking account and displays the new Account ID on the success screen.
+*   **Test 6 (UI):** "verifyNewSavingsAccountAppearsInOverviewTest"
+    *   **Goal:** To ensure that once a new savings account is created, the UI table in the "Accounts Overview" page correctly updates to show the new account and balance.
+*   **Test 7 (API):** "verifyAccountDetailsSchemaTest"
+    *   **Goal:** GET customer accounts, choose any account, verify account details for a specific account ID, and assert the JSON schema matches expectations.
+*   **Test 8 (API - Negative):** "verifyNonExistentAccountReturnsErrorTest"
+    *   **Goal:** GET account details with a non-existing account ID and assert a "400" response is returned.
 
-## Module 3: Money Movement (Transfers & Bill Pay)
-*   **Test 7 (UI):** Transfer funds from Checking to Savings.
-*   **Test 8 (Hybrid - The Ultimate Test):** 
-    *   `API GET`: Fetch the balance of Account A.
-    *   `UI Page`: Pay a bill of $50 from Account A.
-    *   `API GET`: Fetch Account A again and assert the backend balance is exactly $50 less.
-*   **Test 9 (API - Negative):** Attempt to transfer a negative amount via POST and assert it returns a `400 Bad Request`.
-*   **Test 10 (API):** POST a deposit to an account and verify the balance increases.
+## Module 4: Money Movement (Transfers & Bill Pay)
+*   **Test 9 (UI):** "verifyTransferFundsBetweenAccountsTest"
+    *   **Goal:** To confirm the UI dropdowns and transfer buttons work correctly to move money from Checking to Savings.
+*   **Test 10 (Hybrid - The Ultimate Test):** "verifyBillPaymentDeductsCorrectAmountHybridTest"
+    *   **Goal:** To prove that an action performed strictly in the UI (paying a bill) perfectly matches the mathematical reality in the backend database (API).
+    *   "API GET": Fetch the balance of Account A.
+    *   "UI Page": Pay a bill of $50 from Account A.
+    *   "API GET": Fetch Account A again and assert the backend balance is exactly $50 less.
+*   **Test 11 (API - Negative):** "verifyNegativeTransferAmountIsRejectedTest"
+    *   **Goal:** Attempt to transfer a negative amount via POST and assert it returns a "400 Bad Request".
+*   **Test 12 (API):** "verifyApiDepositIncreasesBalanceTest"
+    *   **Goal:** POST a deposit to an account and verify the balance increases appropriately.
 
-## Module 4: Loan Processing
-*   **Test 11 (UI):** Apply for a loan with a high down payment (Expected: Approved).
-*   **Test 12 (API):** Apply for a massive loan with a $0 down payment (Expected: Denied).
+## Module 5: Loan Processing
+*   **Test 13 (UI):** "verifyLoanApplicationApprovedTest"
+    *   **Goal:** Apply for a loan with a high down payment and assert the UI displays an Approved status.
+*   **Test 14 (API):** "verifyZeroDownPaymentLoanIsDeniedTest"
+    *   **Goal:** Apply for a massive loan with a $0 down payment via API and assert the backend logic enforces a Denied status.
 
-## Module 5: Customer Profile Management
-*   **Test 13 (UI):** Update customer contact info and save.
-*   **Test 14 (Hybrid):** Update customer info via UI -> Call API to fetch customer info -> Assert the API returns the updated data.
+## Module 6: Customer Profile Management
+*   **Test 15 (UI):** "verifyUpdateCustomerContactInfoTest"
+    *   **Goal:** Update customer contact info in the UI and verify the success message.
+*   **Test 16 (Hybrid):** "verifyProfileUpdatePersistsInBackendHybridTest"
+    *   **Goal:** Update customer info via UI -> Call API to fetch customer info -> Assert the API returns the updated data.
 
-## Module 6: Transactions Filtering
-*   **Test 15 (Hybrid):** 
-    *   `API`: Check transactions and select a random transaction ID.
-    *   `UI`: Navigate to transactions and search for that specific transaction by the ID retrieved via API.
-*   **Test 16 (API):** Filter transactions by amount `/accounts/{accountId}/transactions/amount/{amount}`
-*   **Test 17 (API):** Filter transactions by month/type `/accounts/{accountId}/transactions/month/{month}/type/{type}`
-*   **Test 18 (API):** Filter transactions by valid date range `/accounts/{accountId}/transactions/fromDate/{fromDate}/toDate/{toDate}`
-*   **Test 19 (API):** Filter transactions by specific date `/accounts/{accountId}/transactions/onDate/{onDate}`
-*   **Test 20 (API - Negative):** Filter transactions by impossible date range (Future date to Past date) and verify appropriate error/empty response.
+## Module 7: Transactions Filtering
+*   **Test 17 (Hybrid):** "verifyUiTransactionSearchByIdTest"
+    *   **Goal:** Prove the UI search accurately finds data matching the database. 
+    *   "API": Check transactions and select a random transaction ID.
+    *   "UI": Navigate to transactions and search for that specific transaction by the ID retrieved via API.
+*   **Test 18 (API):** "verifyFilterTransactionsByAmountTest"
+    *   **Goal:** Filter transactions by amount "/accounts/{accountId}/transactions/amount/{amount}"
+*   **Test 19 (API):** "verifyFilterTransactionsByMonthAndTypeTest"
+    *   **Goal:** Filter transactions by month/type "/accounts/{accountId}/transactions/month/{month}/type/{type}"
+*   **Test 20 (API):** "verifyFilterTransactionsByValidDateRangeTest"
+    *   **Goal:** Filter transactions by valid date range "/accounts/{accountId}/transactions/fromDate/{fromDate}/toDate/{toDate}"
+*   **Test 21 (API):** "verifyFilterTransactionsBySpecificDateTest"
+    *   **Goal:** Filter transactions by specific date "/accounts/{accountId}/transactions/onDate/{onDate}"
+*   **Test 22 (API - Negative):** "verifyInvalidDateRangeReturnsEmptyListTest"
+    *   **Goal:** Filter transactions by impossible date range (Future date to Past date) and verify appropriate error/empty response.
