@@ -50,8 +50,8 @@ public class RegistrationPage {
         confirm.fill(user.getPassword());
         registerButton.click();
     }
-
-    public Locator registrationConfirmation() {
+    public Locator signUpMessage() {
         return page.locator("h1.title");
     }
+
 }
