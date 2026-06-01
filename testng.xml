@@ -19,4 +19,22 @@
             </class>
         </classes>
     </test>
+    <test name="TC-03: verifyValidUserLoginTest">
+        <classes>
+            <class name="com.parabank.tests.LoginTest">
+                <methods>
+                    <include name ="verifyValidUserLoginTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TC-04: verifyInvalidLoginCredentialsTest">
+        <classes>
+            <class name="com.parabank.tests.LoginTest">
+                <methods>
+                    <include name ="verifyInvalidLoginCredentialsTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

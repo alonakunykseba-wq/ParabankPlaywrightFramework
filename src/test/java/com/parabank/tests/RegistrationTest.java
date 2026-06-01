@@ -13,7 +13,6 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 public class RegistrationTest extends BaseTest {
 
-
     @Test(description = "TC-01: verifyValidUserRegistrationTest")
     @Description("""
             Verifies that a new user can successfully register using a valid, dynamically generated dataset.
@@ -23,9 +22,9 @@ public class RegistrationTest extends BaseTest {
         User user = DataGenerator.generateRandomUser();
         MainPage mainPage = new MainPage(page);
         mainPage.openRegistrationForm().registerNewUser(user);
-        AccountOverviewPage regPage = new AccountOverviewPage(page);
+        AccountOverviewPage overviewPage = new AccountOverviewPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(regPage.registrationConfirmation()).hasText(expectedText);
+        assertThat(overviewPage.welcomeMessage()).hasText(expectedText);
     }
 
     @Test(description = "TC-02: verifyInvalidRegistrationValidationsTest")
