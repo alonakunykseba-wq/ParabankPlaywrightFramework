@@ -37,4 +37,22 @@
             </class>
         </classes>
     </test>
+    <test name="TC-05: verifyOpenNewCheckingAccountTest">
+        <classes>
+            <class name="com.parabank.tests.AccountManagementTest">
+                <methods>
+                    <include name ="verifyOpenNewCheckingAccountTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TC-06: verifyNewSavingsAccountAppearsInOverviewTest">
+        <classes>
+            <class name="com.parabank.tests.AccountManagementTest">
+                <methods>
+                    <include name ="verifyNewSavingsAccountAppearsInOverviewTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

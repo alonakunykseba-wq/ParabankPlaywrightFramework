@@ -1,7 +1,7 @@
 package com.parabank.base;
 
 import com.parabank.models.User;
-import com.parabank.pages.AccountOverviewPage;
+import com.parabank.pages.LoginPage;
 import com.parabank.pages.MainPage;
 import com.parabank.utils.DataGenerator;
 import org.testng.annotations.BeforeMethod;
@@ -15,10 +15,11 @@ public class BaseTestWithRegistration extends BaseTest {
     @BeforeMethod
     public void setupTestState() {
         this.user = DataGenerator.generateRandomUser();
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.openRegistrationForm().registerNewUser(user);
         MainPage mainPage = new MainPage(page);
-        mainPage.openRegistrationForm().registerNewUser(user);
-        AccountOverviewPage overviewPage = new AccountOverviewPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(overviewPage.welcomeMessage()).hasText(expectedText);
+        assertThat(mainPage.welcomeMessage())
+                .hasText(expectedText);
     }
 }
