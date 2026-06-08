@@ -1,6 +1,6 @@
 package com.parabank.utils;
 
-import com.parabank.models.User;
+import com.parabank.models.UI.User;
 import net.datafaker.Faker;
 
 public class DataGenerator {

@@ -1,9 +1,9 @@
-package com.parabank.tests;
+package com.parabank.UI.tests;
 
-import com.parabank.base.BaseTestWithRegistration;
+import com.parabank.UI.base.BaseTestWithRegistration;
 
-import com.parabank.pages.AccountOverviewPage;
 import com.parabank.pages.MainPage;
+import com.parabank.pages.LoginPage;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,7 +14,7 @@ public class LoginTest extends BaseTestWithRegistration {
 
     @BeforeMethod
     private void setPreconditions() {
-        AccountOverviewPage overviewPage = new AccountOverviewPage(page);
+        MainPage overviewPage = new MainPage(page);
         overviewPage.logOut();
     }
 
@@ -24,11 +24,12 @@ public class LoginTest extends BaseTestWithRegistration {
             Expected Result: The user is redirected to the Accounts Overview page and the Welcome banner is displayed.
             """)
     public void verifyValidUserLoginTest() {
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.logIn(user.getUsername(), user.getPassword());
         MainPage mainPage = new MainPage(page);
-        mainPage.logIn(user.getUsername(), user.getPassword());
-        AccountOverviewPage overviewPage = new AccountOverviewPage(page);
         String fullName = user.getFirstName() + " " + user.getLastName();
-        assertThat(overviewPage.welcomeUser()).containsText(fullName);
+        assertThat(mainPage.welcomeUser())
+                .containsText(fullName);
     }
 
     @Test(description = "TC 04: verifyInvalidLoginCredentialsTest")
@@ -38,9 +39,11 @@ public class LoginTest extends BaseTestWithRegistration {
             """)
    public  void verifyInvalidLoginCredentialsTest(){
         String expectedMessage= "The username and password could not be verified.";
-        MainPage mainPage = new MainPage(page);
-        mainPage.logIn(user.getUsername(), "123");
-        assertThat(mainPage.errorTitle()).hasText("Error!");
-        assertThat(mainPage.errorMessage()).hasText(expectedMessage);
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.logIn(user.getUsername(), "123");
+        assertThat(loginPage.errorTitle())
+                .hasText("Error!");
+        assertThat(loginPage.errorMessage())
+                .hasText(expectedMessage);
     }
 }

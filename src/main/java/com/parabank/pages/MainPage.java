@@ -2,40 +2,45 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-
 import static com.microsoft.playwright.options.AriaRole.*;
 
 public class MainPage {
     private final Page page;
-    private final Locator registerLink;
-    private final Locator usernameField;
-    private final Locator passwordField;
-    private final Locator logInButton;
+    private final Locator openNewAccount;
+    private final Locator accountsOverview;
+    private final Locator findTransactions;
+    private final Locator updateContactInfo;
+    private final Locator signOut;
 
     public MainPage(Page page) {
         this.page = page;
-        this.registerLink = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Register"));
-        this.usernameField =page.locator("input[name='username']");
-        this.passwordField =page.locator("input[name='password']");
-        this.logInButton = page.getByRole(BUTTON, new Page.GetByRoleOptions().setName("Log In"));
+        this.openNewAccount = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Open New Account"));
+        this.accountsOverview = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Accounts Overview"));
+        this.findTransactions = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Find Transactions"));
+        this.updateContactInfo = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Update Contact Info"));
+        this.signOut = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Log Out"));
     }
 
-    public RegistrationPage openRegistrationForm(){
-        registerLink.click();
-        return new RegistrationPage(page);
-    }
-
-    public void logIn(String username, String password){
-        usernameField.fill(username);
-        passwordField.fill(password);
-        logInButton.click();
-    }
-
-    public Locator errorTitle() {
+    public Locator welcomeMessage() {
         return page.locator("h1.title");
     }
 
-    public Locator errorMessage() {
-        return page.locator(".error");
+    public LoginPage logOut(){
+        signOut.click();
+        return new LoginPage(page);
+    }
+
+    public Locator welcomeUser(){
+        return page.locator("p.smallText");
+    }
+
+    public AccountsOverviewPage openAccountsOverview (){
+        accountsOverview.click();
+        return new AccountsOverviewPage(page);
+    }
+
+    public NewAccountPage openNewAccountPage(){
+        openNewAccount.click();
+        return new NewAccountPage(page);
     }
 }

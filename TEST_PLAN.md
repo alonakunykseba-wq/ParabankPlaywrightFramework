@@ -22,10 +22,10 @@ This document outlines the 20 core test cases implemented in this hybrid automat
     *   **Goal:** To verify the UI successfully creates a checking account and displays the new Account ID on the success screen.
 *   **Test 6 (UI):** "verifyNewSavingsAccountAppearsInOverviewTest"
     *   **Goal:** To ensure that once a new savings account is created, the UI table in the "Accounts Overview" page correctly updates to show the new account and balance.
-*   **Test 7 (API):** "verifyAccountDetailsSchemaTest"
+*   **Test 7 (Hybrid):** "verifyAccountDetailsSchemaTest"
     *   **Goal:** GET customer accounts, choose any account, verify account details for a specific account ID, and assert the JSON schema matches expectations.
 *   **Test 8 (API - Negative):** "verifyNonExistentAccountReturnsErrorTest"
-    *   **Goal:** GET account details with a non-existing account ID and assert a "400" response is returned.
+    *   **Goal:** GET account details with a non-existing account ID and assert a "404" response is returned.
 
 ## Module 4: Money Movement (Transfers & Bill Pay)
 *   **Test 9 (UI):** "verifyTransferFundsBetweenAccountsTest"

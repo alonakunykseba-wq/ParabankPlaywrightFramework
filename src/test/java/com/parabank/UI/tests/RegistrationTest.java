@@ -1,9 +1,9 @@
-package com.parabank.tests;
+package com.parabank.UI.tests;
 
-import com.parabank.base.BaseTest;
-import com.parabank.models.User;
-import com.parabank.pages.AccountOverviewPage;
+import com.parabank.UI.base.BaseTest;
+import com.parabank.models.UI.User;
 import com.parabank.pages.MainPage;
+import com.parabank.pages.LoginPage;
 import com.parabank.pages.RegistrationPage;
 import com.parabank.utils.DataGenerator;
 import io.qameta.allure.Description;
@@ -20,11 +20,12 @@ public class RegistrationTest extends BaseTest {
             """)
     public void verifyValidUserRegistrationTest() {
         User user = DataGenerator.generateRandomUser();
-        MainPage mainPage = new MainPage(page);
-        mainPage.openRegistrationForm().registerNewUser(user);
-        AccountOverviewPage overviewPage = new AccountOverviewPage(page);
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.openRegistrationForm().registerNewUser(user);
+        MainPage overviewPage = new MainPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(overviewPage.welcomeMessage()).hasText(expectedText);
+        assertThat(overviewPage.welcomeMessage())
+                .hasText(expectedText);
     }
 
     @Test(description = "TC-02: verifyInvalidRegistrationValidationsTest")
@@ -34,11 +35,12 @@ public class RegistrationTest extends BaseTest {
             """)
     public void verifyInvalidRegistrationValidationsTest() {
         User user = DataGenerator.generateRandomUser();
-        MainPage mainPage = new MainPage(page);
+        LoginPage loginPage = new LoginPage(page);
         user.setLastName("");
-        mainPage.openRegistrationForm().registerNewUser(user);
+        loginPage.openRegistrationForm().registerNewUser(user);
         RegistrationPage regPage = new RegistrationPage(page);
-        assertThat(regPage.signUpMessage()).hasText("Signing up is easy!");
+        assertThat(regPage.signUpMessage())
+                .hasText("Signing up is easy!");
     }
 
 
