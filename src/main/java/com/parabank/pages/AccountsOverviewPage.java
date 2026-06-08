@@ -21,4 +21,13 @@ public class AccountsOverviewPage {
                 .filter(new Locator.FilterOptions().setHasText(accountNumber))
                 .locator("td").nth(1);
     }
+
+    public Locator defaultAcccountIdLocator(){
+        return page.locator("#accountTable").getByRole(LINK).first();
+    }
+
+    public String getDefaultAccountId(){
+        defaultAcccountIdLocator().waitFor();
+        return defaultAcccountIdLocator().textContent();
+    }
 }

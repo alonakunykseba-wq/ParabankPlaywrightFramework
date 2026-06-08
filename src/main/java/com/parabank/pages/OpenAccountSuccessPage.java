@@ -6,7 +6,6 @@ import com.microsoft.playwright.Page;
 import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static com.microsoft.playwright.options.WaitForSelectorState.*;
 
 public class OpenAccountSuccessPage {
     private final Page page;

@@ -1,6 +1,6 @@
-package com.parabank.base;
+package com.parabank.UI.base;
 
-import com.parabank.models.User;
+import com.parabank.models.UI.User;
 import com.parabank.pages.LoginPage;
 import com.parabank.pages.MainPage;
 import com.parabank.utils.DataGenerator;

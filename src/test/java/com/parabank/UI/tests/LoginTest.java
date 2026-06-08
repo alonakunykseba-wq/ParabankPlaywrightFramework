@@ -1,6 +1,6 @@
-package com.parabank.tests;
+package com.parabank.UI.tests;
 
-import com.parabank.base.BaseTestWithRegistration;
+import com.parabank.UI.base.BaseTestWithRegistration;
 
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;

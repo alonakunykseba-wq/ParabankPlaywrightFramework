@@ -2,7 +2,7 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.parabank.models.User;
+import com.parabank.models.UI.User;
 
 public class RegistrationPage {
     private final Page page;
@@ -22,18 +22,18 @@ public class RegistrationPage {
 
     public RegistrationPage(Page page) {
         this.page = page;
-        this.firstName =page.locator("input[name='customer.firstName']") ;
-        this.lastName = page.locator("input[name='customer.lastName']");
-        this.address = page.locator("input[name='customer.address.street']");
-        this.city = page.locator("input[name='customer.address.city']");
-        this.state = page.locator("input[name='customer.address.state']");
-        this.zipCode = page.locator("input[name='customer.address.zipCode']");
-        this.phoneNumber = page.locator("input[name='customer.phoneNumber']");
-        this.ssn = page.locator("input[name='customer.ssn']");
-        this.username =page.locator("input[name='customer.username']");
-        this.password = page.locator("input[name='customer.password']");
-        this.confirm =page.locator("input[name='repeatedPassword']");
-        this.registerButton = page.locator("input[value='Register']");
+        this.firstName =page.locator("#customer\\.firstName") ;
+        this.lastName = page.locator("#customer\\.lastName");
+        this.address = page.locator("#customer\\.address\\.street");
+        this.city = page.locator("#customer\\.address\\.city");
+        this.state = page.locator("#customer\\.address\\.state");
+        this.zipCode = page.locator("#customer\\.address\\.zipCode");
+        this.phoneNumber = page.locator("#customer\\.phoneNumber");
+        this.ssn = page.locator("#customer\\.ssn");
+        this.username =page.locator("#customer\\.username");
+        this.password = page.locator("#customer\\.password");
+        this.confirm =page.locator("#repeatedPassword");
+        this.registerButton = page.locator("[value='Register']");
     }
 
     public void registerNewUser(User user){

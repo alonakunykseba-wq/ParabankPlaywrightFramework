@@ -1,4 +1,4 @@
-package com.parabank.models;
+package com.parabank.models.UI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.parabank.base;
+package com.parabank.UI.base;
 
 import com.microsoft.playwright.Page;
 import com.parabank.setup.PlaywrightFactory;
