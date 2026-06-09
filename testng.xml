@@ -3,7 +3,7 @@
 <suite name="Parabank Playwright Suite" parallel="methods" thread-count="2" verbose="2">
     <test name="TC-01: verifyValidUserRegistrationTest">
         <classes>
-            <class name="com.parabank.UI.tests.RegistrationTest">
+            <class name="com.parabank.UI.RegistrationTest">
             <methods>
                 <include name ="verifyValidUserRegistrationTest"/>
             </methods>
@@ -12,7 +12,7 @@
     </test>
     <test name="TC-02: verifyInvalidRegistrationValidationsTest">
         <classes>
-            <class name="com.parabank.UI.tests.RegistrationTest">
+            <class name="com.parabank.UI.RegistrationTest">
                 <methods>
                     <include name ="verifyInvalidRegistrationValidationsTest"/>
                 </methods>
@@ -21,7 +21,7 @@
     </test>
     <test name="TC-03: verifyValidUserLoginTest">
         <classes>
-            <class name="com.parabank.UI.tests.LoginTest">
+            <class name="com.parabank.UI.LoginTest">
                 <methods>
                     <include name ="verifyValidUserLoginTest"/>
                 </methods>
@@ -30,7 +30,7 @@
     </test>
     <test name="TC-04: verifyInvalidLoginCredentialsTest">
         <classes>
-            <class name="com.parabank.UI.tests.LoginTest">
+            <class name="com.parabank.UI.LoginTest">
                 <methods>
                     <include name ="verifyInvalidLoginCredentialsTest"/>
                 </methods>
@@ -39,7 +39,7 @@
     </test>
     <test name="TC-05: verifyOpenNewCheckingAccountTest">
         <classes>
-            <class name="com.parabank.UI.tests.AccountManagementTest">
+            <class name="com.parabank.UI.AccountManagementTest">
                 <methods>
                     <include name ="verifyOpenNewCheckingAccountTest"/>
                 </methods>
@@ -48,7 +48,7 @@
     </test>
     <test name="TC-06: verifyNewSavingsAccountAppearsInOverviewTest">
         <classes>
-            <class name="com.parabank.UI.tests.AccountManagementTest">
+            <class name="com.parabank.UI.AccountManagementTest">
                 <methods>
                     <include name ="verifyNewSavingsAccountAppearsInOverviewTest"/>
                 </methods>
@@ -57,7 +57,7 @@
     </test>
     <test name="TC 07: verifyAccountDetailsSchemaTest">
         <classes>
-            <class name="com.parabank.UI.tests.AccountManagementTest">
+            <class name="com.parabank.UI.AccountManagementTest">
                 <methods>
                     <include name ="verifyAccountDetailsSchemaTest"/>
                 </methods>
@@ -66,7 +66,7 @@
     </test>
     <test name="TC 08: verifyNonExistentAccountReturnsErrorTest">
         <classes>
-            <class name="com.parabank.API.tests.AccountManagementApiTest">
+            <class name="com.parabank.API.AccountManagementApiTest">
                 <methods>
                     <include name ="verifyNonExistentAccountReturnsErrorTest"/>
                 </methods>

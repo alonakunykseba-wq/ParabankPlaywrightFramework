@@ -1,4 +1,4 @@
-package com.parabank.API.tests;
+package com.parabank.API;
 
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.APIRequestContext;

@@ -1,4 +1,4 @@
-package com.parabank.UI.tests;
+package com.parabank.UI;
 
 import com.parabank.UI.base.BaseTest;
 import com.parabank.models.UI.User;

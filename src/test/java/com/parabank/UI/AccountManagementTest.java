@@ -1,4 +1,4 @@
-package com.parabank.UI.tests;
+package com.parabank.UI;
 
 import com.microsoft.playwright.APIResponse;
 import com.parabank.APIServices.AccountAPIService;
