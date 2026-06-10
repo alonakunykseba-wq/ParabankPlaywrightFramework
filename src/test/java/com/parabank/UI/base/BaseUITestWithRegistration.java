@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 
-public class BaseTestWithRegistration extends BaseTest {
+public class BaseUITestWithRegistration extends BaseUITest {
     protected User user;
 
     @BeforeMethod

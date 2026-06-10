@@ -1,6 +1,6 @@
 package com.parabank.UI;
 
-import com.parabank.UI.base.BaseTestWithRegistration;
+import com.parabank.UI.base.BaseUITestWithRegistration;
 
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class LoginTest extends BaseTestWithRegistration {
+public class LoginTest extends BaseUITestWithRegistration {
 
     @BeforeMethod
     private void setPreconditions() {

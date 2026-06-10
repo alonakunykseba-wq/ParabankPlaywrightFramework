@@ -2,13 +2,13 @@ package com.parabank.UI;
 
 import com.microsoft.playwright.APIResponse;
 import com.parabank.APIServices.AccountAPIService;
-import com.parabank.UI.base.BaseTestWithRegistration;
+import com.parabank.UI.base.BaseUITestWithRegistration;
 import com.parabank.models.API.AccountResponse;
 import com.parabank.pages.AccountsOverviewPage;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.NewAccountPage;
 import com.parabank.pages.OpenAccountSuccessPage;
-import com.parabank.utils.JacksonUtils;
+import com.parabank.utils.JacksonUtil;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
@@ -17,7 +17,7 @@ import static org.testng.Assert.*;
 
 import java.util.regex.Pattern;
 
-public class AccountManagementTest extends BaseTestWithRegistration {
+public class AccountManagementTest extends BaseUITestWithRegistration {
 
     @Test(description ="TC 05: verifyOpenNewCheckingAccountTest" )
     @Description("""
@@ -65,7 +65,7 @@ public class AccountManagementTest extends BaseTestWithRegistration {
         AccountAPIService accountApi = new AccountAPIService(page.context().request());
         APIResponse response = accountApi.getAccountDetailsViaUi(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");
-        AccountResponse accountDetailsResponse = JacksonUtils.getMapper().readValue(response.text(), AccountResponse.class);
+        AccountResponse accountDetailsResponse = JacksonUtil.getMapper().readValue(response.text(), AccountResponse.class);
         assertTrue(accountDetailsResponse.getId()>0);
         assertTrue(accountDetailsResponse.getCustomerId() >0);
         assertFalse(accountDetailsResponse.getType().isEmpty());

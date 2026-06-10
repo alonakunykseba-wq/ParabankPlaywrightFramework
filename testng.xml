@@ -73,4 +73,13 @@
             </class>
         </classes>
     </test>
+    <test name="TC-09(UI): verifyTransferFundsBetweenAccountsTest">
+        <classes>
+            <class name="com.parabank.UI.TransactionsTest">
+                <methods>
+                    <include name ="verifyTransferFundsBetweenAccountsTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

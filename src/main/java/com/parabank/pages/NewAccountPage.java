@@ -20,5 +20,4 @@ public class NewAccountPage {
         openNewAccountButton.click();
         return new OpenAccountSuccessPage(page);
     }
-
 }

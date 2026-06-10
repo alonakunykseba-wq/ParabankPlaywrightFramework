@@ -10,6 +10,7 @@ public class MainPage {
     private final Locator accountsOverview;
     private final Locator findTransactions;
     private final Locator updateContactInfo;
+    private final Locator transferFunds;
     private final Locator signOut;
 
     public MainPage(Page page) {
@@ -18,6 +19,7 @@ public class MainPage {
         this.accountsOverview = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Accounts Overview"));
         this.findTransactions = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Find Transactions"));
         this.updateContactInfo = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Update Contact Info"));
+        this.transferFunds = page.getByRole(LINK,new Page.GetByRoleOptions().setName("Transfer Funds"));
         this.signOut = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Log Out"));
     }
 
@@ -42,5 +44,10 @@ public class MainPage {
     public NewAccountPage openNewAccountPage(){
         openNewAccount.click();
         return new NewAccountPage(page);
+    }
+
+    public TransferFundsPage openTransferFundsPage(){
+        transferFunds.click();
+        return new TransferFundsPage(page);
     }
 }

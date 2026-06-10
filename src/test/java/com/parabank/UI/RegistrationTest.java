@@ -1,6 +1,6 @@
 package com.parabank.UI;
 
-import com.parabank.UI.base.BaseTest;
+import com.parabank.UI.base.BaseUITest;
 import com.parabank.models.UI.User;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class RegistrationTest extends BaseTest {
+public class RegistrationTest extends BaseUITest {
 
     @Test(description = "TC-01: verifyValidUserRegistrationTest")
     @Description("""
