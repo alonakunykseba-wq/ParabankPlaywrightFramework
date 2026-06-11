@@ -82,4 +82,13 @@
             </class>
         </classes>
     </test>
+    <test name="TC-10(Hybrid) verifyBillPaymentDeductsCorrectAmountHybridTest">
+        <classes>
+            <class name="com.parabank.UI.TransactionsTest">
+                <methods>
+                    <include name ="verifyBillPaymentDeductsCorrectAmountHybridTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

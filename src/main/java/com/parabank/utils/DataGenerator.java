@@ -1,34 +1,43 @@
 package com.parabank.utils;
 
+import com.parabank.models.API.Address;
+import com.parabank.models.API.BillPayload;
 import com.parabank.models.UI.User;
 import net.datafaker.Faker;
 
 public class DataGenerator {
+    static Faker faker = new Faker();
 
     public static User generateRandomUser(){
-        Faker faker = new Faker();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        String address = faker.address().streetAddress();
-        String city = faker.address().city();
-        String state = faker.address().state();
-        String zipCode = faker.address().zipCode();
-        String phoneNumber = faker.phoneNumber().phoneNumberInternational();
-        String ssn = faker.idNumber().ssnValid();
-        String username = faker.credentials().username();
-        String password = ConfigurationManager.getProperty("defaultTestPassword");
-
+        Address randomAddress = generateRandomAddress();
         return User.builder()
-                .firstName(firstName)
-                .lastName(lastName)
-                .address(address)
-                .city(city)
-                .state(state)
-                .zipCode(zipCode)
-                .phoneNumber(phoneNumber)
-                .ssn(ssn)
-                .username(username)
-                .password(password)
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .address(randomAddress.getStreet())
+                .city(randomAddress.getCity())
+                .state(randomAddress.getState())
+                .zipCode(randomAddress.getZipCode())
+                .phoneNumber(faker.phoneNumber().phoneNumberInternational())
+                .ssn(faker.idNumber().ssnValid())
+                .username(faker.credentials().username())
+                .password(ConfigurationManager.getProperty("defaultTestPassword"))
+                .build();
+    }
+    public static Address generateRandomAddress(){
+        return Address.builder()
+                .street(faker.address().streetAddress())
+                .city(faker.address().city())
+                .state(faker.address().state())
+                .zipCode(faker.address().zipCode())
+                .build();
+    }
+
+    public static BillPayload generateBillPayload(int accountId){
+        return BillPayload.builder()
+                .name(faker.name().name())
+                .phoneNumber(faker.phoneNumber().phoneNumberInternational())
+                .address(generateRandomAddress())
+                .accountNumber(accountId)
                 .build();
     }
 }

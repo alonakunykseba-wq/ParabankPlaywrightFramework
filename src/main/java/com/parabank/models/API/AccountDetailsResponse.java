@@ -5,9 +5,12 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class AccountResponse {
+public class AccountDetailsResponse {
     private int id;
     private int customerId;
     private String type;
     private double balance;
+
 }
+
+

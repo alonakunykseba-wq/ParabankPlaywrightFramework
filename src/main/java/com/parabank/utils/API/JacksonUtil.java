@@ -1,4 +1,4 @@
-package com.parabank.utils;
+package com.parabank.utils.API;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;

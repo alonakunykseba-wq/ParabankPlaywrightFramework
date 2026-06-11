@@ -1,14 +1,14 @@
 package com.parabank.UI;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
 import com.parabank.APIServices.AccountAPIService;
 import com.parabank.UI.base.BaseUITestWithRegistration;
-import com.parabank.models.API.AccountResponse;
+import com.parabank.models.API.AccountDetailsResponse;
 import com.parabank.pages.AccountsOverviewPage;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.NewAccountPage;
 import com.parabank.pages.OpenAccountSuccessPage;
-import com.parabank.utils.JacksonUtil;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
@@ -59,13 +59,13 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
              Verifies the Account Details API endpoint returns the correct JSON schema for a valid account.
              Expected Result: The API responds with a 200 OK and the expected JSON structure containing valid ID, Customer ID, Account Type, and Balance fields.
             """)
-    public void verifyAccountDetailsSchemaTest() throws Exception {
+    public void verifyAccountDetailsSchemaTest() throws JsonProcessingException {
         AccountsOverviewPage accountsOverview = new MainPage(page).openAccountsOverview();
         int accountId = Integer.parseInt(accountsOverview.getDefaultAccountId());
         AccountAPIService accountApi = new AccountAPIService(page.context().request());
         APIResponse response = accountApi.getAccountDetailsViaUi(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");
-        AccountResponse accountDetailsResponse = JacksonUtil.getMapper().readValue(response.text(), AccountResponse.class);
+        AccountDetailsResponse accountDetailsResponse = accountApi.deserializeResponse(response);
         assertTrue(accountDetailsResponse.getId()>0);
         assertTrue(accountDetailsResponse.getCustomerId() >0);
         assertFalse(accountDetailsResponse.getType().isEmpty());
