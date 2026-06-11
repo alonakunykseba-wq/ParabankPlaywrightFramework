@@ -2,6 +2,7 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.parabank.utils.LocatorUtil;
 
 import static com.microsoft.playwright.options.AriaRole.*;
 
@@ -13,7 +14,7 @@ public class AccountsOverviewPage {
     }
 
     public Locator accountNumber(String accountNumber){
-        return page.getByRole(LINK, new Page.GetByRoleOptions().setName(accountNumber));
+        return page.getByRole(LINK, LocatorUtil.name(accountNumber));
     }
 
     public Locator balance(String accountNumber){

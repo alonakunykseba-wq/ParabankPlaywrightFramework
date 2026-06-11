@@ -2,6 +2,7 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.parabank.utils.LocatorUtil;
 
 import static com.microsoft.playwright.options.AriaRole.*;
 
@@ -14,10 +15,10 @@ public class LoginPage {
 
     public LoginPage(Page page) {
         this.page = page;
-        this.registerLink = page.getByRole(LINK, new Page.GetByRoleOptions().setName("Register"));
+        this.registerLink = page.getByRole(LINK, LocatorUtil.name("Register"));
         this.usernameField =page.locator("input[name='username']");
         this.passwordField =page.locator("input[name='password']");
-        this.logInButton = page.getByRole(BUTTON, new Page.GetByRoleOptions().setName("Log In"));
+        this.logInButton = page.getByRole(BUTTON, LocatorUtil.name("Log In"));
     }
 
     public RegistrationPage openRegistrationForm(){

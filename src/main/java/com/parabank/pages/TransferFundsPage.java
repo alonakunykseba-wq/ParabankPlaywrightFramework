@@ -2,6 +2,7 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.parabank.utils.LocatorUtil;
 import static com.microsoft.playwright.options.AriaRole.*;
 
 public class TransferFundsPage {
@@ -16,7 +17,7 @@ public class TransferFundsPage {
         this.amountField = page.locator("#amount");
         this.fromAccountField = page.locator("#fromAccountId");
         this.toAccountField = page.locator("#toAccountId");
-        this.transferButton = page.getByRole(BUTTON, new Page.GetByRoleOptions().setName("Transfer"));
+        this.transferButton = page.getByRole(BUTTON, LocatorUtil.name("Transfer"));
     }
 
     public void createTransfer(double transferAmount, String fromAccountId, String toAccountId){
@@ -27,6 +28,6 @@ public class TransferFundsPage {
     }
 
     public Locator transferSuccessHeading(){
-        return page.getByRole(HEADING, new Page.GetByRoleOptions().setName("Transfer Complete!"));
+        return page.getByRole(HEADING, LocatorUtil.name("Transfer Complete!"));
     }
 }

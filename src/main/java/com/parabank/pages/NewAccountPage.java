@@ -2,6 +2,8 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.parabank.utils.LocatorUtil;
+
 import static com.microsoft.playwright.options.AriaRole.*;
 
 public class NewAccountPage {
@@ -12,7 +14,7 @@ public class NewAccountPage {
     public NewAccountPage(Page page) {
         this.page = page;
         this.accountTypeList = page.getByRole(COMBOBOX).first();
-        this.openNewAccountButton = page.getByRole(BUTTON, new Page.GetByRoleOptions().setName("Open New Account"));
+        this.openNewAccountButton = page.getByRole(BUTTON, LocatorUtil.name("Open New Account"));
     }
 
     public OpenAccountSuccessPage openNewAccount(String accountType){
