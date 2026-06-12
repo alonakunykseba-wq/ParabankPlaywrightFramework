@@ -3,10 +3,6 @@ package com.parabank.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-import java.util.regex.Pattern;
-
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
 public class OpenAccountSuccessPage {
     private final Page page;
     private final Locator accountNumber;
