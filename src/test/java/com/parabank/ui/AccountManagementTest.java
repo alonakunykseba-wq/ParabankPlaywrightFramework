@@ -1,10 +1,10 @@
-package com.parabank.UI;
+package com.parabank.ui;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
-import com.parabank.APIServices.AccountAPIService;
-import com.parabank.UI.base.BaseUITestWithRegistration;
-import com.parabank.models.API.AccountDetailsResponse;
+import com.parabank.apiservices.AccountApiService;
+import com.parabank.ui.base.BaseUITestWithRegistration;
+import com.parabank.models.api.AccountDetailsResponse;
 import com.parabank.pages.AccountsOverviewPage;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.NewAccountPage;
@@ -19,15 +19,15 @@ import java.util.regex.Pattern;
 
 public class AccountManagementTest extends BaseUITestWithRegistration {
 
-    @Test(description ="TC 05: verifyOpenNewCheckingAccountTest" )
+    @Test(description = "TC 05: verifyOpenNewCheckingAccountTest")
     @Description("""
             Verifies that a user can successfully open a new Checking account.
             Expected Result: The account is opened successfully, and a dynamically generated numeric Account ID is displayed to the user.
             """)
-    public void  verifyOpenNewCheckingAccountTest (){
+    public void verifyOpenNewCheckingAccountTest() {
         MainPage mainPage = new MainPage(page);
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
-        OpenAccountSuccessPage successPage=newAccountPage.openNewAccount("checking");
+        OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("checking");
         assertThat(successPage.successHeadingLocator())
                 .isVisible();
         assertThat(successPage.successDescriptionLocator())
@@ -36,16 +36,16 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
                 "Account number was empty or not numeric! Found: " + successPage.getAccountNumber());
     }
 
-    @Test(description ="TC 06: verifyNewSavingsAccountAppearsInOverviewTest" )
+    @Test(description = "TC 06: verifyNewSavingsAccountAppearsInOverviewTest")
     @Description("""
                   Verifies that a newly created Savings account appears correctly in the user's account list.
                   Expected Result: The new account number is visible in the Accounts Overview table with an initial balance of $100.00.
             """)
-    public void  verifyNewSavingsAccountAppearsInOverviewTest (){
+    public void verifyNewSavingsAccountAppearsInOverviewTest() {
         String expectedBalance = "$100.00";
         MainPage mainPage = new MainPage(page);
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
-        OpenAccountSuccessPage successPage=newAccountPage.openNewAccount("savings");
+        OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("savings");
         String savingsAccount = successPage.getAccountNumber();
         AccountsOverviewPage accountsOverview = mainPage.openAccountsOverview();
         assertThat(accountsOverview.accountNumberLocator(savingsAccount))
@@ -62,14 +62,14 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
     public void verifyAccountDetailsSchemaTest() throws JsonProcessingException {
         AccountsOverviewPage accountsOverview = new MainPage(page).openAccountsOverview();
         int accountId = Integer.parseInt(accountsOverview.getDefaultAccountId());
-        AccountAPIService accountApi = new AccountAPIService(page.context().request());
-        APIResponse response = accountApi.getAccountDetailsViaUi(accountId);
+        AccountApiService accountApi = new AccountApiService(page.context().request());
+        APIResponse response = accountApi.getAccountDetailsWithSession(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");
         AccountDetailsResponse accountDetailsResponse = accountApi.deserializeResponse(response);
-        assertTrue(accountDetailsResponse.getId()>0);
-        assertTrue(accountDetailsResponse.getCustomerId() >0);
+        assertTrue(accountDetailsResponse.getId() > 0);
+        assertTrue(accountDetailsResponse.getCustomerId() > 0);
         assertFalse(accountDetailsResponse.getType().isEmpty());
-        assertTrue(accountDetailsResponse.getBalance()>0.00);
+        assertTrue(accountDetailsResponse.getBalance() > 0.00);
     }
 
 }

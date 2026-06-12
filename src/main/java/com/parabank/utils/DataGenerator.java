@@ -1,8 +1,8 @@
 package com.parabank.utils;
 
-import com.parabank.models.API.Address;
-import com.parabank.models.API.BillPayload;
-import com.parabank.models.UI.User;
+import com.parabank.models.api.Address;
+import com.parabank.models.api.BillPayload;
+import com.parabank.models.ui.User;
 import net.datafaker.Faker;
 
 public class DataGenerator {

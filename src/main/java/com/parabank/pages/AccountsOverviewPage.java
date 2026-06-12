@@ -23,12 +23,12 @@ public class AccountsOverviewPage {
                 .locator("td").nth(1);
     }
 
-    public Locator defaultAcccountIdLocator(){
+    public Locator defaultAccountIdLocator(){
         return page.locator("#accountTable").getByRole(LINK).first();
     }
 
     public String getDefaultAccountId(){
-        defaultAcccountIdLocator().waitFor();
-        return defaultAcccountIdLocator().textContent();
+        defaultAccountIdLocator().waitFor();
+        return defaultAccountIdLocator().textContent();
     }
 }

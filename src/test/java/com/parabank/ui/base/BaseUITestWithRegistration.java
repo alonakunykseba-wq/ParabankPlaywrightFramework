@@ -1,6 +1,6 @@
-package com.parabank.UI.base;
+package com.parabank.ui.base;
 
-import com.parabank.models.UI.User;
+import com.parabank.models.ui.User;
 import com.parabank.pages.LoginPage;
 import com.parabank.pages.MainPage;
 import com.parabank.utils.DataGenerator;
@@ -16,8 +16,9 @@ public class BaseUITestWithRegistration extends BaseUITest {
     public void setupTestState() {
         this.user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
-        loginPage.openRegistrationForm().registerNewUser(user);
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = loginPage
+                .openRegistrationForm()
+                .registerNewUserWithSuccess(user);
         String expectedText = String.format("Welcome %s", user.getUsername());
         assertThat(mainPage.welcomeMessageLocator())
                 .hasText(expectedText);

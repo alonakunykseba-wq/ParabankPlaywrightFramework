@@ -1,94 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Parabank Playwright Suite" parallel="methods" thread-count="2" verbose="2">
-    <test name="TC-01: verifyValidUserRegistrationTest">
+    <test name="Parabank Functional Tests">
         <classes>
-            <class name="com.parabank.UI.RegistrationTest">
-            <methods>
-                <include name ="verifyValidUserRegistrationTest"/>
-            </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-02: verifyInvalidRegistrationValidationsTest">
-        <classes>
-            <class name="com.parabank.UI.RegistrationTest">
-                <methods>
-                    <include name ="verifyInvalidRegistrationValidationsTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-03: verifyValidUserLoginTest">
-        <classes>
-            <class name="com.parabank.UI.LoginTest">
-                <methods>
-                    <include name ="verifyValidUserLoginTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-04: verifyInvalidLoginCredentialsTest">
-        <classes>
-            <class name="com.parabank.UI.LoginTest">
-                <methods>
-                    <include name ="verifyInvalidLoginCredentialsTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-05: verifyOpenNewCheckingAccountTest">
-        <classes>
-            <class name="com.parabank.UI.AccountManagementTest">
-                <methods>
-                    <include name ="verifyOpenNewCheckingAccountTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-06: verifyNewSavingsAccountAppearsInOverviewTest">
-        <classes>
-            <class name="com.parabank.UI.AccountManagementTest">
-                <methods>
-                    <include name ="verifyNewSavingsAccountAppearsInOverviewTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC 07: verifyAccountDetailsSchemaTest">
-        <classes>
-            <class name="com.parabank.UI.AccountManagementTest">
-                <methods>
-                    <include name ="verifyAccountDetailsSchemaTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC 08: verifyNonExistentAccountReturnsErrorTest">
-        <classes>
-            <class name="com.parabank.API.AccountManagementApiTest">
-                <methods>
-                    <include name ="verifyNonExistentAccountReturnsErrorTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-09(UI): verifyTransferFundsBetweenAccountsTest">
-        <classes>
-            <class name="com.parabank.UI.TransactionsTest">
-                <methods>
-                    <include name ="verifyTransferFundsBetweenAccountsTest"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TC-10(Hybrid) verifyBillPaymentDeductsCorrectAmountHybridTest">
-        <classes>
-            <class name="com.parabank.UI.TransactionsTest">
-                <methods>
-                    <include name ="verifyBillPaymentDeductsCorrectAmountHybridTest"/>
-                </methods>
-            </class>
+            <class name="com.parabank.ui.RegistrationTest"/>
+            <class name="com.parabank.ui.LoginTest"/>
+            <class name="com.parabank.ui.AccountManagementTest"/>
+            <class name="com.parabank.ui.TransactionsTest"/>
+            <class name="com.parabank.api.AccountManagementApiTest"/>
         </classes>
     </test>
 </suite>

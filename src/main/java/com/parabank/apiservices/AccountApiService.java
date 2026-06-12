@@ -1,37 +1,36 @@
-package com.parabank.APIServices;
+package com.parabank.apiservices;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
-import com.microsoft.playwright.options.RequestOptions;
-import com.parabank.models.API.AccountDetailsResponse;
-import com.parabank.models.API.BillPayload;
-import com.parabank.utils.API.HeaderUtil;
+import com.parabank.models.api.AccountDetailsResponse;
+import com.parabank.models.api.BillPayload;
+import com.parabank.utils.api.HeaderUtil;
 import com.parabank.utils.ConfigurationManager;
-import com.parabank.utils.API.JacksonUtil;
+import com.parabank.utils.api.JacksonUtil;
 import com.parabank.utils.DataGenerator;
 
-public class AccountAPIService {
+public class AccountApiService {
     private final APIRequestContext request;
 
-    public AccountAPIService(APIRequestContext request) {
+    public AccountApiService(APIRequestContext request) {
         this.request = request;
     }
 
-    public APIResponse getAccountDetailsViaUi(int accountId) {
+    public APIResponse getAccountDetailsWithSession(int accountId) {
         return request.get(ConfigurationManager.getProperty("baseApiUrl") + "/accounts/" + accountId,
-                HeaderUtil.setDefaultHeader());
+                HeaderUtil.withDefaultHeaders());
     }
 
     public APIResponse getAccountDetails(int accountId) {
         return request.get("/accounts/" + accountId,
-                HeaderUtil.setDefaultHeader());
+                HeaderUtil.withDefaultHeaders());
     }
 
     public APIResponse payBillViaUi(int accountId, double amount){
         BillPayload billPayload = DataGenerator.generateBillPayload(accountId);
         return request.post(ConfigurationManager.getProperty("baseApiUrl") +"/billpay",
-                HeaderUtil.setDefaultHeader()
+                HeaderUtil.withDefaultHeaders()
                         .setQueryParam("accountId",accountId)
                         .setQueryParam("amount", String.valueOf(amount))
                         .setData(billPayload));

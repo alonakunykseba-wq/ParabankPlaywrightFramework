@@ -4,55 +4,67 @@ import com.microsoft.playwright.*;
 import com.parabank.utils.ConfigurationManager;
 
 public class PlaywrightFactory {
-    private static final ThreadLocal<Playwright> tlPlaywright = new ThreadLocal<>();
-    private static final ThreadLocal<Browser> tlBrowser = new ThreadLocal<>();
-    private static final ThreadLocal<BrowserContext> tlBrowserContext = new ThreadLocal<>();
-    private static final ThreadLocal<Page> tlPage = new ThreadLocal<>();
+    private static final ThreadLocal<Playwright> playwrightThread = new ThreadLocal<>();
+    private static final ThreadLocal<Browser> browserThread = new ThreadLocal<>();
+    private static final ThreadLocal<BrowserContext> browserContextThread = new ThreadLocal<>();
+    private static final ThreadLocal<Page> pageThread = new ThreadLocal<>();
 
     public static Playwright getPlaywright() {
-        return tlPlaywright.get();
+        return playwrightThread.get();
     }
 
     public static Browser getBrowser() {
-        return tlBrowser.get();
+        return browserThread.get();
     }
 
     public static BrowserContext getBrowserContext() {
-        return tlBrowserContext.get();
+        return browserContextThread.get();
     }
 
     public static Page getPage() {
-        return tlPage.get();
+        return pageThread.get();
     }
 
-    public Page initBrowser(String browserName){
-        tlPlaywright.set(Playwright.create());
+    public static Page initBrowser(String browserName) {
+        playwrightThread.set(Playwright.create());
 
-        switch (browserName.toLowerCase()){
+        switch (browserName.toLowerCase()) {
             case "chromium":
-                tlBrowser.set(getPlaywright().chromium().launch());
+                browserThread.set(getPlaywright().chromium().launch());
                 break;
             case "firefox":
-                tlBrowser.set(getPlaywright().firefox().launch());
+                browserThread.set(getPlaywright().firefox().launch());
                 break;
             case "chrome":
-                tlBrowser.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
+                browserThread.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
                 break;
             default:
-                System.out.println("Please pass the right browser name......");
+                throw new IllegalArgumentException("Unsupported browser name: " + browserName);
         }
 
-        tlBrowserContext.set(getBrowser().newContext());
-        tlPage.set(getBrowserContext().newPage());
+        browserContextThread.set(getBrowser().newContext());
+        pageThread.set(getBrowserContext().newPage());
 
         getPage().navigate(ConfigurationManager.getProperty("baseUrl"));
         return getPage();
     }
 
     public static void removeThreadLocals() {
-        tlPage.remove();
-        tlBrowserContext.remove();
-        tlBrowser.remove();
-        tlPlaywright.remove();
+        if (pageThread.get() != null) {
+            pageThread.remove();
+        }
+        if (browserContextThread.get() != null) {
+            browserContextThread.get().close();
+            browserContextThread.remove();
+        }
+        if (browserThread.get() != null) {
+            browserThread.get().close();
+            browserThread.remove();
+        }
+        if (playwrightThread.get() != null) {
+            playwrightThread.get().close();
+
+            playwrightThread.remove();
+        }
     }
 }

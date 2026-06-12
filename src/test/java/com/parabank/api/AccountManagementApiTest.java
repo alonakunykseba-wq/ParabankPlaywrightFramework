@@ -1,7 +1,7 @@
-package com.parabank.API;
+package com.parabank.api;
 
 import com.microsoft.playwright.APIResponse;
-import com.parabank.APIServices.AccountAPIService;
+import com.parabank.apiservices.AccountApiService;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
@@ -14,7 +14,7 @@ public class AccountManagementApiTest extends BaseApiTest {
              Expected Result: The API returns a 404  status code instead of crashing or returning empty data.
             """)
     public void verifyNonExistentAccountReturnsErrorTest() {
-        AccountAPIService accountApi = new AccountAPIService(request);
+        AccountApiService accountApi = new AccountApiService(request);
         APIResponse response = accountApi.getAccountDetails(1000);
         assertEquals(response.status(), 404, "The status code is not as expected");
     }

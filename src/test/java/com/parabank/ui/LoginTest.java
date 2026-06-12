@@ -1,6 +1,6 @@
-package com.parabank.UI;
+package com.parabank.ui;
 
-import com.parabank.UI.base.BaseUITestWithRegistration;
+import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
@@ -24,9 +24,8 @@ public class LoginTest extends BaseUITestWithRegistration {
             Expected Result: The user is redirected to the Accounts Overview page and the Welcome banner is displayed.
             """)
     public void verifyValidUserLoginTest() {
-        LoginPage loginPage = new LoginPage(page);
-        loginPage.loginWithValidCredentials(user.getUsername(), user.getPassword());
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new LoginPage(page)
+                .loginWithValidCredentials(user.getUsername(), user.getPassword());
         String fullName = user.getFirstName() + " " + user.getLastName();
         assertThat(mainPage.welcomeUserLocator())
                 .containsText(fullName);
@@ -39,8 +38,8 @@ public class LoginTest extends BaseUITestWithRegistration {
             """)
    public  void verifyInvalidLoginCredentialsTest(){
         String expectedMessage= "The username and password could not be verified.";
-        LoginPage loginPage = new LoginPage(page);
-        loginPage.loginWithInvalidCredentials(user.getUsername(), "123");
+        LoginPage loginPage = new LoginPage(page)
+                .loginWithInvalidCredentials(user.getUsername(), "123");
         assertThat(loginPage.errorTitleLocator())
                 .hasText("Error!");
         assertThat(loginPage.errorMessageLocator())

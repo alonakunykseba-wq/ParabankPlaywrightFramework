@@ -25,7 +25,7 @@ public class OpenAccountSuccessPage {
     }
 
     public String getAccountNumber() {
-        assertThat(accountNumber).hasText(Pattern.compile("\\d+"));
+        accountNumber.waitFor();
         return accountNumber.textContent();
     }
 }

@@ -1,7 +1,7 @@
-package com.parabank.UI;
+package com.parabank.ui;
 
-import com.parabank.UI.base.BaseUITest;
-import com.parabank.models.UI.User;
+import com.parabank.ui.base.BaseUITest;
+import com.parabank.models.ui.User;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
 import com.parabank.pages.RegistrationPage;
@@ -21,8 +21,9 @@ public class RegistrationTest extends BaseUITest {
     public void verifyValidUserRegistrationTest() {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
-        loginPage.openRegistrationForm().registerNewUser(user);
-        MainPage overviewPage = new MainPage(page);
+        MainPage overviewPage = loginPage
+                .openRegistrationForm()
+                .registerNewUserWithSuccess(user);
         String expectedText = String.format("Welcome %s", user.getUsername());
         assertThat(overviewPage.welcomeMessageLocator())
                 .hasText(expectedText);
@@ -37,8 +38,9 @@ public class RegistrationTest extends BaseUITest {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
         user.setLastName("");
-        loginPage.openRegistrationForm().registerNewUser(user);
-        RegistrationPage regPage = new RegistrationPage(page);
+        RegistrationPage regPage  = loginPage
+                .openRegistrationForm()
+                .registerNewUserWithFailure(user);
         assertThat(regPage.signUpMessageLocator())
                 .hasText("Signing up is easy!");
     }
