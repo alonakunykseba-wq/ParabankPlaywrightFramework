@@ -1,6 +1,6 @@
 package com.parabank.UI;
 
-import com.parabank.UI.base.BaseTest;
+import com.parabank.UI.base.BaseUITest;
 import com.parabank.models.UI.User;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class RegistrationTest extends BaseTest {
+public class RegistrationTest extends BaseUITest {
 
     @Test(description = "TC-01: verifyValidUserRegistrationTest")
     @Description("""
@@ -24,7 +24,7 @@ public class RegistrationTest extends BaseTest {
         loginPage.openRegistrationForm().registerNewUser(user);
         MainPage overviewPage = new MainPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(overviewPage.welcomeMessage())
+        assertThat(overviewPage.welcomeMessageLocator())
                 .hasText(expectedText);
     }
 
@@ -39,7 +39,7 @@ public class RegistrationTest extends BaseTest {
         user.setLastName("");
         loginPage.openRegistrationForm().registerNewUser(user);
         RegistrationPage regPage = new RegistrationPage(page);
-        assertThat(regPage.signUpMessage())
+        assertThat(regPage.signUpMessageLocator())
                 .hasText("Signing up is easy!");
     }
 

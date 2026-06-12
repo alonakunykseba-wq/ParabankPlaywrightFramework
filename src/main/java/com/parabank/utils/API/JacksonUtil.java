@@ -1,14 +1,14 @@
-package com.parabank.utils;
+package com.parabank.utils.API;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
 
-public class JacksonUtils {
+public class JacksonUtil {
     @Getter
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private JacksonUtils() {
+    private JacksonUtil() {
     }
 
 }

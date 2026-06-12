@@ -16,11 +16,11 @@ public class OpenAccountSuccessPage {
         this.accountNumber = page.locator("a[id='newAccountId']");
     }
 
-    public Locator successHeading() {
+    public Locator successHeadingLocator() {
         return page.getByText("Account Opened!", new Page.GetByTextOptions().setExact(true));
     }
 
-    public Locator successDescription() {
+    public Locator successDescriptionLocator() {
         return page.getByText("Congratulations, your account is now open.", new Page.GetByTextOptions().setExact(true));
     }
 

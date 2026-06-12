@@ -1,6 +1,6 @@
 package com.parabank.UI;
 
-import com.parabank.UI.base.BaseTestWithRegistration;
+import com.parabank.UI.base.BaseUITestWithRegistration;
 
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class LoginTest extends BaseTestWithRegistration {
+public class LoginTest extends BaseUITestWithRegistration {
 
     @BeforeMethod
     private void setPreconditions() {
@@ -25,10 +25,10 @@ public class LoginTest extends BaseTestWithRegistration {
             """)
     public void verifyValidUserLoginTest() {
         LoginPage loginPage = new LoginPage(page);
-        loginPage.logIn(user.getUsername(), user.getPassword());
+        loginPage.loginWithValidCredentials(user.getUsername(), user.getPassword());
         MainPage mainPage = new MainPage(page);
         String fullName = user.getFirstName() + " " + user.getLastName();
-        assertThat(mainPage.welcomeUser())
+        assertThat(mainPage.welcomeUserLocator())
                 .containsText(fullName);
     }
 
@@ -40,10 +40,10 @@ public class LoginTest extends BaseTestWithRegistration {
    public  void verifyInvalidLoginCredentialsTest(){
         String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(page);
-        loginPage.logIn(user.getUsername(), "123");
-        assertThat(loginPage.errorTitle())
+        loginPage.loginWithInvalidCredentials(user.getUsername(), "123");
+        assertThat(loginPage.errorTitleLocator())
                 .hasText("Error!");
-        assertThat(loginPage.errorMessage())
+        assertThat(loginPage.errorMessageLocator())
                 .hasText(expectedMessage);
     }
 }

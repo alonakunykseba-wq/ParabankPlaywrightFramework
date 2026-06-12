@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 
-public class BaseTestWithRegistration extends BaseTest {
+public class BaseUITestWithRegistration extends BaseUITest {
     protected User user;
 
     @BeforeMethod
@@ -19,7 +19,7 @@ public class BaseTestWithRegistration extends BaseTest {
         loginPage.openRegistrationForm().registerNewUser(user);
         MainPage mainPage = new MainPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(mainPage.welcomeMessage())
+        assertThat(mainPage.welcomeMessageLocator())
                 .hasText(expectedText);
     }
 }
