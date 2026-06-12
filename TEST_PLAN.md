@@ -53,10 +53,9 @@ critical end-to-end user journeys.
     * **Goal:** Attempt to transfer a negative amount via POST and assert it returns a "400 Bad Request".
 * **Test 12 (Hybrid):** "verifyApiDepositIncreasesBalanceTest"
   * **Goal:** Make a deposit to an account and verify the balance increases appropriately.
-  * Pre-conditions: create a new user and fetch the default account number (A).
-  * "UI": create savings account and fetch the number.
-  * "UI": make transfer from checking to savings account.
-  * "API GET": check savings account balance: the balance is the transfer amount more.
+  * Pre-conditions: create a new user and fetch the default account number (A). Assert that balance is 515.
+  * "API POST": make deposit to the default account number. Assert response text.
+  * "API GET":  check default account balance: the balance is the deposit amount more.
 
 ## Module 5: Loan Processing
 

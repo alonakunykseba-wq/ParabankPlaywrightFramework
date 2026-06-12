@@ -25,7 +25,7 @@ public class MainPage {
         this.signOut = page.getByRole(LINK, LocatorUtil.name ("Log Out"));
     }
 
-    public Locator welcomeMessage() {
+    public Locator welcomeMessageLocator() {
         return page.locator("h1.title");
     }
 
@@ -34,7 +34,7 @@ public class MainPage {
         return new LoginPage(page);
     }
 
-    public Locator welcomeUser(){
+    public Locator welcomeUserLocator(){
         return page.locator("p.smallText");
     }
 

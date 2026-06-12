@@ -26,17 +26,27 @@ public class LoginPage {
         return new RegistrationPage(page);
     }
 
-    public void logIn(String username, String password){
+    private void fillLogin(String username, String password){
         usernameField.fill(username);
         passwordField.fill(password);
         logInButton.click();
     }
 
-    public Locator errorTitle() {
+    public MainPage loginWithValidCredentials(String username, String password){
+        fillLogin(username, password);
+        return new MainPage(page);
+    }
+
+    public LoginPage loginWithInvalidCredentials(String username, String password){
+        fillLogin(username, password);
+        return this;
+    }
+
+    public Locator errorTitleLocator() {
         return page.locator("h1.title");
     }
 
-    public Locator errorMessage() {
+    public Locator errorMessageLocator() {
         return page.locator(".error");
     }
 }

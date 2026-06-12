@@ -25,10 +25,10 @@ public class LoginTest extends BaseUITestWithRegistration {
             """)
     public void verifyValidUserLoginTest() {
         LoginPage loginPage = new LoginPage(page);
-        loginPage.logIn(user.getUsername(), user.getPassword());
+        loginPage.loginWithValidCredentials(user.getUsername(), user.getPassword());
         MainPage mainPage = new MainPage(page);
         String fullName = user.getFirstName() + " " + user.getLastName();
-        assertThat(mainPage.welcomeUser())
+        assertThat(mainPage.welcomeUserLocator())
                 .containsText(fullName);
     }
 
@@ -40,10 +40,10 @@ public class LoginTest extends BaseUITestWithRegistration {
    public  void verifyInvalidLoginCredentialsTest(){
         String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(page);
-        loginPage.logIn(user.getUsername(), "123");
-        assertThat(loginPage.errorTitle())
+        loginPage.loginWithInvalidCredentials(user.getUsername(), "123");
+        assertThat(loginPage.errorTitleLocator())
                 .hasText("Error!");
-        assertThat(loginPage.errorMessage())
+        assertThat(loginPage.errorMessageLocator())
                 .hasText(expectedMessage);
     }
 }

@@ -20,14 +20,15 @@ public class TransferFundsPage {
         this.transferButton = page.getByRole(BUTTON, LocatorUtil.name("Transfer"));
     }
 
-    public void createTransfer(double transferAmount, String fromAccountId, String toAccountId){
+    public TransferFundsPage createTransfer(double transferAmount, String fromAccountId, String toAccountId){
         amountField.fill(String.valueOf(transferAmount));
         fromAccountField.selectOption(fromAccountId);
         toAccountField.selectOption(toAccountId);
         transferButton.click();
+        return this;
     }
 
-    public Locator transferSuccessHeading(){
+    public Locator transferSuccessHeadingLocator(){
         return page.getByRole(HEADING, LocatorUtil.name("Transfer Complete!"));
     }
 }

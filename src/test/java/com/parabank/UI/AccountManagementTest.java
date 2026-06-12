@@ -28,9 +28,9 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
         MainPage mainPage = new MainPage(page);
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
         OpenAccountSuccessPage successPage=newAccountPage.openNewAccount("checking");
-        assertThat(successPage.successHeading())
+        assertThat(successPage.successHeadingLocator())
                 .isVisible();
-        assertThat(successPage.successDescription())
+        assertThat(successPage.successDescriptionLocator())
                 .isVisible();
         assertTrue(Pattern.matches("\\d+", successPage.getAccountNumber()),
                 "Account number was empty or not numeric! Found: " + successPage.getAccountNumber());
@@ -48,9 +48,9 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
         OpenAccountSuccessPage successPage=newAccountPage.openNewAccount("savings");
         String savingsAccount = successPage.getAccountNumber();
         AccountsOverviewPage accountsOverview = mainPage.openAccountsOverview();
-        assertThat(accountsOverview.accountNumber(savingsAccount))
+        assertThat(accountsOverview.accountNumberLocator(savingsAccount))
                 .isVisible();
-        assertThat(accountsOverview.balance(savingsAccount))
+        assertThat(accountsOverview.balanceLocator(savingsAccount))
                 .hasText(expectedBalance);
     }
 

@@ -32,7 +32,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 .getAccountNumber();
         TransferFundsPage transferPage = mainPage.openTransferFundsPage();
         transferPage.createTransfer(10.5, checkingAccountNumber, savingsAccountNumber);
-        assertThat(transferPage.transferSuccessHeading()).containsText("Transfer Complete!");
+        assertThat(transferPage.transferSuccessHeadingLocator()).containsText("Transfer Complete!");
     }
 
     @Test (description = "TC-10(Hybrid) verifyBillPaymentDeductsCorrectAmountHybridTest")
@@ -55,7 +55,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         assertEquals(payBillResponse.status(), 200);
         String defaultAccountBalance= mainPage
                 .openAccountsOverview()
-                .balance(defaultAccount)
+                .balanceLocator(defaultAccount)
                 .textContent();
         double accountBalanceAfterBill = Double.parseDouble(defaultAccountBalance.replace("$", ""));
         assertEquals(accountBalanceAfterBill, (accountBalanceBeforeBill-billAmount), "account balance in web doesn't reflect bill amount deduction" );

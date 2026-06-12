@@ -19,7 +19,7 @@ public class BaseUITestWithRegistration extends BaseUITest {
         loginPage.openRegistrationForm().registerNewUser(user);
         MainPage mainPage = new MainPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(mainPage.welcomeMessage())
+        assertThat(mainPage.welcomeMessageLocator())
                 .hasText(expectedText);
     }
 }

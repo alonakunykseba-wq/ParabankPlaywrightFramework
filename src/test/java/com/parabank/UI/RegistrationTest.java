@@ -24,7 +24,7 @@ public class RegistrationTest extends BaseUITest {
         loginPage.openRegistrationForm().registerNewUser(user);
         MainPage overviewPage = new MainPage(page);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(overviewPage.welcomeMessage())
+        assertThat(overviewPage.welcomeMessageLocator())
                 .hasText(expectedText);
     }
 
@@ -39,7 +39,7 @@ public class RegistrationTest extends BaseUITest {
         user.setLastName("");
         loginPage.openRegistrationForm().registerNewUser(user);
         RegistrationPage regPage = new RegistrationPage(page);
-        assertThat(regPage.signUpMessage())
+        assertThat(regPage.signUpMessageLocator())
                 .hasText("Signing up is easy!");
     }
 

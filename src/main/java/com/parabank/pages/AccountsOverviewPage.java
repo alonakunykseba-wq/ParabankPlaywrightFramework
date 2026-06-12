@@ -13,11 +13,11 @@ public class AccountsOverviewPage {
         this.page = page;
     }
 
-    public Locator accountNumber(String accountNumber){
+    public Locator accountNumberLocator(String accountNumber){
         return page.getByRole(LINK, LocatorUtil.name(accountNumber));
     }
 
-    public Locator balance(String accountNumber){
+    public Locator balanceLocator(String accountNumber){
         return page.locator("tr")
                 .filter(new Locator.FilterOptions().setHasText(accountNumber))
                 .locator("td").nth(1);
