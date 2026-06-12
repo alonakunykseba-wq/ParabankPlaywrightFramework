@@ -6,36 +6,39 @@ import com.parabank.models.ui.User;
 import net.datafaker.Faker;
 
 public class DataGenerator {
-    static Faker faker = new Faker();
+    private static final ThreadLocal<Faker> fakerThread = ThreadLocal.withInitial(Faker::new);
 
+    private static Faker getFaker() {
+        return fakerThread.get();
+    }
     public static User generateRandomUser(){
         Address randomAddress = generateRandomAddress();
         return User.builder()
-                .firstName(faker.name().firstName())
-                .lastName(faker.name().lastName())
+                .firstName(getFaker().name().firstName())
+                .lastName(getFaker().name().lastName())
                 .address(randomAddress.getStreet())
                 .city(randomAddress.getCity())
                 .state(randomAddress.getState())
                 .zipCode(randomAddress.getZipCode())
-                .phoneNumber(faker.phoneNumber().phoneNumberInternational())
-                .ssn(faker.idNumber().ssnValid())
-                .username(faker.credentials().username())
+                .phoneNumber(getFaker().phoneNumber().phoneNumberInternational())
+                .ssn(getFaker().idNumber().ssnValid())
+                .username(getFaker().credentials().username())
                 .password(ConfigurationManager.getProperty("defaultTestPassword"))
                 .build();
     }
     public static Address generateRandomAddress(){
         return Address.builder()
-                .street(faker.address().streetAddress())
-                .city(faker.address().city())
-                .state(faker.address().state())
-                .zipCode(faker.address().zipCode())
+                .street(getFaker().address().streetAddress())
+                .city(getFaker().address().city())
+                .state(getFaker().address().state())
+                .zipCode(getFaker().address().zipCode())
                 .build();
     }
 
     public static BillPayload generateBillPayload(int accountId){
         return BillPayload.builder()
-                .name(faker.name().name())
-                .phoneNumber(faker.phoneNumber().phoneNumberInternational())
+                .name(getFaker().name().name())
+                .phoneNumber(getFaker().phoneNumber().phoneNumberInternational())
                 .address(generateRandomAddress())
                 .accountNumber(accountId)
                 .build();

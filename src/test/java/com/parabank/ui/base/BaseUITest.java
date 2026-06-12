@@ -12,7 +12,6 @@ public class BaseUITest {
     @BeforeMethod
     public void setup() {
         this.page = PlaywrightFactory.initBrowser(ConfigurationManager.getProperty("browser"));
-        page.navigate(ConfigurationManager.getProperty("baseUrl"));
     }
 
     @AfterMethod
