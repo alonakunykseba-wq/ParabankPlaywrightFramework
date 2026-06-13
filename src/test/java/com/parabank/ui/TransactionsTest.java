@@ -16,12 +16,12 @@ import static org.testng.Assert.assertEquals;
 
 public class TransactionsTest extends BaseUITestWithRegistration {
 
-    @Test(description = "TC-09(UI): verifyTransferFundsBetweenAccountsTest")
+    @Test(description = "TC-09 (UI): Transferring funds between checking and savings accounts should succeed")
     @Description("""
             Verifies that a user can successfully transfer funds between two of their own accounts via the UI.
             Expected Result: The UI dropdowns populate correctly, the transfer processes, and the system displays a "Transfer Complete!" success message.
             """)
-    public void verifyTransferFundsBetweenAccountsTest() {
+    public void fundsTransferBetweenAccountsShouldBeSuccessful() {
         MainPage mainPage = new MainPage(page);
         String checkingAccountNumber = mainPage
                 .openAccountsOverview()
@@ -35,12 +35,12 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         assertThat(transferPage.transferSuccessHeadingLocator()).containsText("Transfer Complete!");
     }
 
-    @Test(description = "TC-10(Hybrid) verifyBillPaymentDeductsCorrectAmountHybridTest")
+    @Test(description = "TC-10 (Hybrid): Paying a bill via the API should correctly reduce the account balance on the UI")
     @Description("""
                 Verifies that submitting a Bill Payment via API instantly updates the User's balance in the UI.
                 Expected Result: The Frontend UI balance perfectly reflects the backend API deduction.
             """)
-    public void verifyBillPaymentDeductsCorrectAmountHybridTest() throws JsonProcessingException {
+    public void billPaymentViaApiShouldDeductCorrectAmountFromUiBalance() throws JsonProcessingException {
         double billAmount = 15.5;
         MainPage mainPage = new MainPage(page);
         String defaultAccount = mainPage

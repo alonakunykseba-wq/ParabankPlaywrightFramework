@@ -18,12 +18,12 @@ public class LoginTest extends BaseUITestWithRegistration {
         overviewPage.logOut();
     }
 
-    @Test(description = "TC-03:(UI): verifyValidUserLoginTest")
+    @Test(description = "TC-03 (UI): User with valid credentials should be able to log in successfully")
     @Description(""" 
             Verifies that a registered user can successfully log in with valid credentials.
             Expected Result: The user is redirected to the Accounts Overview page and the Welcome banner is displayed.
             """)
-    public void verifyValidUserLoginTest() {
+    public void userWithValidCredentialsShouldBeAbleToLogin() {
         MainPage mainPage = new LoginPage(page)
                 .loginWithValidCredentials(user.getUsername(), user.getPassword());
         String fullName = user.getFirstName() + " " + user.getLastName();
@@ -31,12 +31,12 @@ public class LoginTest extends BaseUITestWithRegistration {
                 .containsText(fullName);
     }
 
-    @Test(description = "TC 04: verifyInvalidLoginCredentialsTest")
+    @Test(description = "TC-04: Login attempt with invalid credentials should show an error message")
     @Description("""
             Verifies that user with invalid credentials cannot  log in.
             Expected Result: The error message is displayed, user stayed on the main page.
             """)
-   public  void verifyInvalidLoginCredentialsTest(){
+   public void loginWithInvalidCredentialsShouldDisplayErrorMessage(){
         String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(page)
                 .loginWithInvalidCredentials(user.getUsername(), "123");

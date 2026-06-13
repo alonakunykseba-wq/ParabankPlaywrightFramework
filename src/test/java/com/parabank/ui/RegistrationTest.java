@@ -13,12 +13,12 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 public class RegistrationTest extends BaseUITest {
 
-    @Test(description = "TC-01: verifyValidUserRegistrationTest")
+    @Test(description = "TC-01: User with all required fields should be registered")
     @Description("""
             Verifies that a new user can successfully register using a valid, dynamically generated dataset.
             Expected Result: The form submits successfully and the user is immediately logged in and greeted with a personalized Welcome banner.
             """)
-    public void verifyValidUserRegistrationTest() {
+    public void userWithAllRequiredFieldsShouldBeRegistered() {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
         MainPage overviewPage = loginPage
@@ -29,12 +29,12 @@ public class RegistrationTest extends BaseUITest {
                 .hasText(expectedText);
     }
 
-    @Test(description = "TC-02: verifyInvalidRegistrationValidationsTest")
+    @Test(description = "TC-02: Registration with missing required fields should display validation errors")
     @Description("""
             Verifies that the registration form correctly enforces mandatory field validations.
             Expected Result: Submitting the form with an empty Last Name prevents account creation and the user remains on the Registration page.
             """)
-    public void verifyInvalidRegistrationValidationsTest() {
+    public void registrationWithMissingFieldsShouldDisplayValidationErrors() {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
         user.setLastName("");
