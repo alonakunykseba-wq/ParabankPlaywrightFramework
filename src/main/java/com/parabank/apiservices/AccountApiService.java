@@ -27,7 +27,7 @@ public class AccountApiService {
                 HeaderUtil.withDefaultHeaders());
     }
 
-    public APIResponse payBillViaUi(int accountId, double amount){
+    public APIResponse payBillWithSession(int accountId, double amount){
         BillPayload billPayload = DataGenerator.generateBillPayload(accountId);
         return request.post(ConfigurationManager.getProperty("baseApiUrl") +"/billpay",
                 HeaderUtil.withDefaultHeaders()
@@ -40,6 +40,14 @@ public class AccountApiService {
         return JacksonUtil
                 .getMapper()
                 .readValue(response.text(), AccountDetailsResponse.class);
+    }
+
+    public APIResponse postTransferWithSession(int fromAccountId, int toAccountId, double amount){
+        return request.post(ConfigurationManager.getProperty("baseApiUrl") + "/transfer",
+                HeaderUtil.withDefaultHeaders()
+                    .setQueryParam("fromAccountId", fromAccountId)
+                    .setQueryParam("toAccountId", toAccountId)
+                    .setQueryParam("amount", String.valueOf(amount)));
     }
 }
 

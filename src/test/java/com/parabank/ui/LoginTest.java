@@ -15,7 +15,7 @@ public class LoginTest extends BaseUITestWithRegistration {
     @BeforeMethod
     private void setPreconditions() {
         MainPage overviewPage = new MainPage(page);
-        overviewPage.logOut();
+        overviewPage.submitLogOut();
     }
 
     @Test(description = "TC-03 (UI): User with valid credentials should be able to log in successfully")

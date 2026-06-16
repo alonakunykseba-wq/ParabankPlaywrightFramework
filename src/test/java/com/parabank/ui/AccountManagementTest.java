@@ -32,8 +32,8 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
                 .isVisible();
         assertThat(successPage.successDescriptionLocator())
                 .isVisible();
-        assertTrue(Pattern.matches("\\d+", successPage.getAccountNumber()),
-                 "Account number was empty or not numeric! Found: " + successPage.getAccountNumber());
+        assertTrue(Pattern.matches("\\d+", successPage.getAccountNumberLocator()),
+                 "Account number was empty or not numeric! Found: " + successPage.getAccountNumberLocator());
     }
 
     @Test(description = "TC-06: Newly created savings account should immediately appear in the accounts overview")
@@ -46,7 +46,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
         MainPage mainPage = new MainPage(page);
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
         OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("savings");
-        String savingsAccount = successPage.getAccountNumber();
+        String savingsAccount = successPage.getAccountNumberLocator();
         AccountsOverviewPage accountsOverview = mainPage.openAccountsOverview();
         assertThat(accountsOverview.accountNumberLocator(savingsAccount))
                 .isVisible();

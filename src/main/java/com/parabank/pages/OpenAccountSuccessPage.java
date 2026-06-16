@@ -5,11 +5,11 @@ import com.microsoft.playwright.Page;
 
 public class OpenAccountSuccessPage {
     private final Page page;
-    private final Locator accountNumber;
+    private final Locator accountNumberLocator;
 
     public OpenAccountSuccessPage(Page page) {
         this.page = page;
-        this.accountNumber = page.locator("a[id='newAccountId']");
+        this.accountNumberLocator = page.locator("a[id='newAccountId']");
     }
 
     public Locator successHeadingLocator() {
@@ -20,8 +20,8 @@ public class OpenAccountSuccessPage {
         return page.getByText("Congratulations, your account is now open.", new Page.GetByTextOptions().setExact(true));
     }
 
-    public String getAccountNumber() {
-        accountNumber.waitFor();
-        return accountNumber.textContent();
+    public String getAccountNumberLocator() {
+        accountNumberLocator.waitFor();
+        return accountNumberLocator.textContent();
     }
 }

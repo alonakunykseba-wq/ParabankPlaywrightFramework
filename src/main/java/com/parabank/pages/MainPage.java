@@ -29,7 +29,7 @@ public class MainPage {
         return page.locator("h1.title");
     }
 
-    public LoginPage logOut(){
+    public LoginPage submitLogOut(){
         signOutLink.click();
         return new LoginPage(page);
     }
