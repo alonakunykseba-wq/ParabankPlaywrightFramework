@@ -16,8 +16,8 @@ public class LoginPage {
     public LoginPage(Page page) {
         this.page = page;
         this.registerLink = page.getByRole(LINK, LocatorUtil.name("Register"));
-        this.usernameField =page.locator("input[name='username']");
-        this.passwordField =page.locator("input[name='password']");
+        this.usernameField = page.locator("input[name='username']");
+        this.passwordField = page.locator("input[name='password']");
         this.logInButton = page.getByRole(BUTTON, LocatorUtil.name("Log In"));
     }
 
@@ -26,19 +26,19 @@ public class LoginPage {
         return new RegistrationPage(page);
     }
 
-    private void fillLogin(String username, String password){
+    private void submitLogin(String username, String password){
         usernameField.fill(username);
         passwordField.fill(password);
         logInButton.click();
     }
 
     public MainPage loginWithValidCredentials(String username, String password){
-        fillLogin(username, password);
+        submitLogin(username, password);
         return new MainPage(page);
     }
 
     public LoginPage loginWithInvalidCredentials(String username, String password){
-        fillLogin(username, password);
+        submitLogin(username, password);
         return this;
     }
 

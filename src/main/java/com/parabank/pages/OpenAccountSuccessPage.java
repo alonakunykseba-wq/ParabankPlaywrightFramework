@@ -3,17 +3,13 @@ package com.parabank.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-import java.util.regex.Pattern;
-
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
 public class OpenAccountSuccessPage {
     private final Page page;
-    private final Locator accountNumber;
+    private final Locator accountNumberLocator;
 
     public OpenAccountSuccessPage(Page page) {
         this.page = page;
-        this.accountNumber = page.locator("a[id='newAccountId']");
+        this.accountNumberLocator = page.locator("a[id='newAccountId']");
     }
 
     public Locator successHeadingLocator() {
@@ -24,8 +20,8 @@ public class OpenAccountSuccessPage {
         return page.getByText("Congratulations, your account is now open.", new Page.GetByTextOptions().setExact(true));
     }
 
-    public String getAccountNumber() {
-        assertThat(accountNumber).hasText(Pattern.compile("\\d+"));
-        return accountNumber.textContent();
+    public int getAccountNumber() {
+        accountNumberLocator.waitFor();
+        return Integer.parseInt(accountNumberLocator.textContent());
     }
 }

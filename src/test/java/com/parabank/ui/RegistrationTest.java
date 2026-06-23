@@ -1,7 +1,7 @@
-package com.parabank.UI;
+package com.parabank.ui;
 
-import com.parabank.UI.base.BaseUITest;
-import com.parabank.models.UI.User;
+import com.parabank.ui.base.BaseUITest;
+import com.parabank.models.ui.User;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
 import com.parabank.pages.RegistrationPage;
@@ -13,32 +13,34 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 public class RegistrationTest extends BaseUITest {
 
-    @Test(description = "TC-01: verifyValidUserRegistrationTest")
+    @Test(description = "TC-01: User with all required fields should be registered")
     @Description("""
             Verifies that a new user can successfully register using a valid, dynamically generated dataset.
             Expected Result: The form submits successfully and the user is immediately logged in and greeted with a personalized Welcome banner.
             """)
-    public void verifyValidUserRegistrationTest() {
+    public void userWithAllRequiredFieldsShouldBeRegistered() {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
-        loginPage.openRegistrationForm().registerNewUser(user);
-        MainPage overviewPage = new MainPage(page);
+        MainPage overviewPage = loginPage
+                .openRegistrationForm()
+                .registerNewUserWithSuccess(user);
         String expectedText = String.format("Welcome %s", user.getUsername());
         assertThat(overviewPage.welcomeMessageLocator())
                 .hasText(expectedText);
     }
 
-    @Test(description = "TC-02: verifyInvalidRegistrationValidationsTest")
+    @Test(description = "TC-02: Registration with missing required fields should display validation errors")
     @Description("""
             Verifies that the registration form correctly enforces mandatory field validations.
             Expected Result: Submitting the form with an empty Last Name prevents account creation and the user remains on the Registration page.
             """)
-    public void verifyInvalidRegistrationValidationsTest() {
+    public void registrationWithMissingFieldsShouldDisplayValidationErrors() {
         User user = DataGenerator.generateRandomUser();
         LoginPage loginPage = new LoginPage(page);
         user.setLastName("");
-        loginPage.openRegistrationForm().registerNewUser(user);
-        RegistrationPage regPage = new RegistrationPage(page);
+        RegistrationPage regPage  = loginPage
+                .openRegistrationForm()
+                .registerNewUserWithFailure(user);
         assertThat(regPage.signUpMessageLocator())
                 .hasText("Signing up is easy!");
     }

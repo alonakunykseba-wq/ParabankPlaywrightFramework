@@ -8,29 +8,29 @@ import static com.microsoft.playwright.options.AriaRole.*;
 
 public class MainPage {
     private final Page page;
-    private final Locator openNewAccount;
-    private final Locator accountsOverview;
-    private final Locator findTransactions;
-    private final Locator updateContactInfo;
-    private final Locator transferFunds;
-    private final Locator signOut;
+    private final Locator openNewAccountLink;
+    private final Locator accountsOverviewLink;
+    private final Locator findTransactionsLink;
+    private final Locator updateContactInfoLink;
+    private final Locator transferFundsLink;
+    private final Locator signOutLink;
 
     public MainPage(Page page) {
         this.page = page;
-        this.openNewAccount = page.getByRole(LINK, LocatorUtil.name("Open New Account"));
-        this.accountsOverview = page.getByRole(LINK, LocatorUtil.name("Accounts Overview"));
-        this.findTransactions = page.getByRole(LINK, LocatorUtil.name("Find Transactions"));
-        this.updateContactInfo = page.getByRole(LINK, LocatorUtil.name("Update Contact Info"));
-        this.transferFunds = page.getByRole(LINK,LocatorUtil.name("Transfer Funds"));
-        this.signOut = page.getByRole(LINK, LocatorUtil.name ("Log Out"));
+        this.openNewAccountLink = page.getByRole(LINK, LocatorUtil.name("Open New Account"));
+        this.accountsOverviewLink = page.getByRole(LINK, LocatorUtil.name("Accounts Overview"));
+        this.findTransactionsLink = page.getByRole(LINK, LocatorUtil.name("Find Transactions"));
+        this.updateContactInfoLink = page.getByRole(LINK, LocatorUtil.name("Update Contact Info"));
+        this.transferFundsLink = page.getByRole(LINK, LocatorUtil.name("Transfer Funds"));
+        this.signOutLink = page.getByRole(LINK, LocatorUtil.name("Log Out"));
     }
 
     public Locator welcomeMessageLocator() {
         return page.locator("h1.title");
     }
 
-    public LoginPage logOut(){
-        signOut.click();
+    public LoginPage submitLogOut(){
+        signOutLink.click();
         return new LoginPage(page);
     }
 
@@ -38,18 +38,18 @@ public class MainPage {
         return page.locator("p.smallText");
     }
 
-    public AccountsOverviewPage openAccountsOverview (){
-        accountsOverview.click();
+    public AccountsOverviewPage openAccountsOverview() {
+        accountsOverviewLink.click();
         return new AccountsOverviewPage(page);
     }
 
     public NewAccountPage openNewAccountPage(){
-        openNewAccount.click();
+        openNewAccountLink.click();
         return new NewAccountPage(page);
     }
 
     public TransferFundsPage openTransferFundsPage(){
-        transferFunds.click();
+        transferFundsLink.click();
         return new TransferFundsPage(page);
     }
 }

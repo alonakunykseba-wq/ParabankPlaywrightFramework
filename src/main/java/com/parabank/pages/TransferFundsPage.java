@@ -20,10 +20,10 @@ public class TransferFundsPage {
         this.transferButton = page.getByRole(BUTTON, LocatorUtil.name("Transfer"));
     }
 
-    public TransferFundsPage createTransfer(double transferAmount, String fromAccountId, String toAccountId){
+    public TransferFundsPage createTransfer(double transferAmount, int fromAccountId, int toAccountId){
         amountField.fill(String.valueOf(transferAmount));
-        fromAccountField.selectOption(fromAccountId);
-        toAccountField.selectOption(toAccountId);
+        fromAccountField.selectOption(String.valueOf(fromAccountId));
+        toAccountField.selectOption(String.valueOf(toAccountId));
         transferButton.click();
         return this;
     }
