@@ -20,8 +20,8 @@ public class OpenAccountSuccessPage {
         return page.getByText("Congratulations, your account is now open.", new Page.GetByTextOptions().setExact(true));
     }
 
-    public String getAccountNumberLocator() {
+    public int getAccountNumber() {
         accountNumberLocator.waitFor();
-        return accountNumberLocator.textContent();
+        return Integer.parseInt(accountNumberLocator.textContent());
     }
 }

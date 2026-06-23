@@ -15,8 +15,6 @@ import org.testng.annotations.Test;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.testng.Assert.*;
 
-import java.util.regex.Pattern;
-
 public class AccountManagementTest extends BaseUITestWithRegistration {
 
     @Test(description = "TC-05: A new checking account should be successfully opened and return an ID")
@@ -32,8 +30,8 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
                 .isVisible();
         assertThat(successPage.successDescriptionLocator())
                 .isVisible();
-        assertTrue(Pattern.matches("\\d+", successPage.getAccountNumberLocator()),
-                 "Account number was empty or not numeric! Found: " + successPage.getAccountNumberLocator());
+        assertTrue(successPage.getAccountNumber() >0,
+                 "Account number was empty or not numeric! Found: " +successPage.getAccountNumber());
     }
 
     @Test(description = "TC-06: Newly created savings account should immediately appear in the accounts overview")
@@ -46,7 +44,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
         MainPage mainPage = new MainPage(page);
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
         OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("savings");
-        String savingsAccount = successPage.getAccountNumberLocator();
+        int savingsAccount = successPage.getAccountNumber();
         AccountsOverviewPage accountsOverview = mainPage.openAccountsOverview();
         assertThat(accountsOverview.accountNumberLocator(savingsAccount))
                 .isVisible();
@@ -61,7 +59,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
             """)
     public void accountDetailsSchemaShouldMatchExpectations() throws JsonProcessingException {
         AccountsOverviewPage accountsOverview = new MainPage(page).openAccountsOverview();
-        int accountId = Integer.parseInt(accountsOverview.getDefaultAccountId());
+        int accountId = accountsOverview.getDefaultAccountId();
         AccountApiService accountApi = new AccountApiService(page.context().request());
         APIResponse response = accountApi.getAccountDetailsWithSession(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");

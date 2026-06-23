@@ -49,5 +49,12 @@ public class AccountApiService {
                     .setQueryParam("toAccountId", toAccountId)
                     .setQueryParam("amount", String.valueOf(amount)));
     }
+
+    public APIResponse postDepositWithSession(int accountId, double amount){
+        return request.post(ConfigurationManager.getProperty("baseApiUrl") + "/deposit",
+                HeaderUtil.withDefaultHeaders()
+                        .setQueryParam("accountId",accountId)
+                        .setQueryParam("amount", String.valueOf(amount)));
+    }
 }
 

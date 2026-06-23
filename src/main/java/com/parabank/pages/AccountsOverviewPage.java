@@ -13,22 +13,28 @@ public class AccountsOverviewPage {
         this.page = page;
     }
 
-    public Locator accountNumberLocator(String accountNumber){
-        return page.getByRole(LINK, LocatorUtil.name(accountNumber));
+    public Locator accountNumberLocator(int accountNumber){
+        return page.getByRole(LINK, LocatorUtil.name(String.valueOf(accountNumber)));
     }
 
-    public Locator balanceLocator(String accountNumber){
+    public Locator balanceLocator(int accountNumber){
         return page.locator("tr")
-                .filter(new Locator.FilterOptions().setHasText(accountNumber))
+                .filter(new Locator.FilterOptions().setHasText(String.valueOf(accountNumber)))
                 .locator("td").nth(1);
+    }
+
+    public double getAccountBalance(int accountNumber) {
+        balanceLocator(accountNumber).waitFor();
+        String rawBalance = balanceLocator(accountNumber).textContent();
+        return Double.parseDouble(rawBalance.replace("$", "").trim());
     }
 
     public Locator defaultAccountIdLocator(){
         return page.locator("#accountTable").getByRole(LINK).first();
     }
 
-    public String getDefaultAccountId(){
+    public int getDefaultAccountId(){
         defaultAccountIdLocator().waitFor();
-        return defaultAccountIdLocator().textContent();
+        return Integer.parseInt(defaultAccountIdLocator().textContent());
     }
 }

@@ -3,13 +3,10 @@ package com.parabank.ui;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
 import com.parabank.apiservices.AccountApiService;
-import com.parabank.pages.NewAccountPage;
-import com.parabank.pages.OpenAccountSuccessPage;
+import com.parabank.pages.*;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.models.api.AccountDetailsResponse;
-import com.parabank.pages.MainPage;
-import com.parabank.pages.TransferFundsPage;
 import org.testng.annotations.Test;
 import io.qameta.allure.Description;
 
@@ -26,13 +23,13 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             """)
     public void fundsTransferBetweenAccountsShouldBeSuccessful() {
         MainPage mainPage = new MainPage(page);
-        String checkingAccountNumber = mainPage
+        int checkingAccountNumber = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        String savingsAccountNumber = mainPage
+        int savingsAccountNumber = mainPage
                 .openNewAccountPage()
                 .openNewAccount("SAVINGS")
-                .getAccountNumberLocator();
+                .getAccountNumber();
         TransferFundsPage transferPage = mainPage.openTransferFundsPage();
         transferPage.createTransfer(10.5, checkingAccountNumber, savingsAccountNumber);
         assertThat(transferPage.transferSuccessHeadingLocator()).containsText("Transfer Complete!");
@@ -46,19 +43,18 @@ public class TransactionsTest extends BaseUITestWithRegistration {
     public void billPaymentViaApiShouldDeductCorrectAmountFromUiBalance() throws JsonProcessingException {
         double billAmount = 15.5;
         MainPage mainPage = new MainPage(page);
-        String defaultAccount = mainPage
+        int defaultAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        int accountId = Integer.parseInt(defaultAccount);
         AccountApiService accountApiService = new AccountApiService(page.context().request());
-        APIResponse accountDetailsResponseJson = accountApiService.getAccountDetailsWithSession(accountId);
+        APIResponse accountDetailsResponseJson = accountApiService.getAccountDetailsWithSession(defaultAccountId);
         AccountDetailsResponse accountDetails = accountApiService.deserializeResponse(accountDetailsResponseJson);
         double accountBalanceBeforeBill = accountDetails.getBalance();
-        APIResponse payBillResponse = accountApiService.payBillWithSession(accountId, billAmount);
+        APIResponse payBillResponse = accountApiService.payBillWithSession(defaultAccountId, billAmount);
         assertEquals(payBillResponse.status(), 200);
-        String defaultAccountBalance= mainPage
+        String defaultAccountBalance = mainPage
                 .openAccountsOverview()
-                .balanceLocator(defaultAccount)
+                .balanceLocator(defaultAccountId)
                 .textContent();
         double accountBalanceAfterBill = Double.parseDouble(defaultAccountBalance.replace("$", ""));
         assertEquals(accountBalanceAfterBill, (accountBalanceBeforeBill - billAmount), "account balance in web doesn't reflect bill amount deduction");
@@ -66,28 +62,49 @@ public class TransactionsTest extends BaseUITestWithRegistration {
 
     // The test is currently disabled because the call returns 200 instead of 400
     // and posts transfer with negative amount. This is a known bug of the API.
-    @ Test(enabled = false, description = "TC-11 (Hybrid) negativeTransferAmountShouldBeRejectedWithBadRequest")
+    @Test(enabled = false, description = "TC-11 (Hybrid) negativeTransferAmountShouldBeRejectedWithBadRequest")
     @Description("""
                 Verifies that posting a transfer with negative amount via API is not possible.
                 Expected Result: The backend API returns Status code 400.
             """)
 
-    public void negativeTransferAmountShouldBeRejectedWithBadRequest(){
+    public void negativeTransferAmountShouldBeRejectedWithBadRequest() {
         double amount = -15.00;
         MainPage mainPage = new MainPage(page);
-        String checkingAccount = mainPage
+        int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        int checkingAccountId = Integer.parseInt(checkingAccount);
-        OpenAccountSuccessPage successPage  = mainPage
+        OpenAccountSuccessPage successPage = mainPage
                 .openNewAccountPage()
                 .openNewAccount("savings");
-        String savingsAccount = successPage.getAccountNumberLocator();
-        int savingsAccountId = Integer.parseInt(savingsAccount);
+        int savingsAccountId = successPage.getAccountNumber();
         AccountApiService accountApiService = new AccountApiService(page.context().request());
         APIResponse transferResponse = accountApiService
-                .postTransferWithSession(checkingAccountId,savingsAccountId, amount);
+                .postTransferWithSession(checkingAccountId, savingsAccountId, amount);
         assertEquals(transferResponse.status(), 400, "The status code is not as expected");
         assertTrue(transferResponse.text().contains("Status 400 – Bad Request"), "Response text mismatch:" + transferResponse.text());
+    }
+
+    @Test(description = "TC- 12: apiDepositShouldCorrectlyIncreaseAccountBalance")
+    @Description("""
+               Verifies that performing a deposit via the API successfully increases the account balance.
+               Expected Result: The deposit succeeds with status code 200,
+               and the updated account details retrieved via the API show that the balance has increased by the deposited amount.
+            """)
+    void apiDepositShouldCorrectlyIncreaseAccountBalance() throws JsonProcessingException {
+        double amount = 10.5;
+        AccountsOverviewPage overview = new MainPage(page).openAccountsOverview();
+        int checkingAccountId = overview.getDefaultAccountId();
+        double initialBalance = overview.getAccountBalance(checkingAccountId);
+        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, amount);
+        assertEquals(depositResponse.status(), 200, "Status code mismatch: 200 is expected");
+        assertTrue(depositResponse.text().contains("Successfully deposited") &&
+                        depositResponse.text().contains(String.valueOf(amount)) &&
+                        depositResponse.text().contains(String.valueOf(checkingAccountId)),
+                "Response text mismatch");
+        APIResponse accountDetailsResponse = accountApiService.getAccountDetailsWithSession(checkingAccountId);
+        AccountDetailsResponse deserializedAccountResponse = accountApiService.deserializeResponse(accountDetailsResponse);
+        assertEquals(deserializedAccountResponse.getBalance(), initialBalance + amount);
     }
 }
