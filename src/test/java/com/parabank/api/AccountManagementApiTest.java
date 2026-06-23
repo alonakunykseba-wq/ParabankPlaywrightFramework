@@ -6,6 +6,7 @@ import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class AccountManagementApiTest extends BaseApiTest {
     @Test(description = "TC-08: Requesting details for a non-existent account ID should return a 404 error")
@@ -17,5 +18,6 @@ public class AccountManagementApiTest extends BaseApiTest {
         AccountApiService accountApi = new AccountApiService(request);
         APIResponse response = accountApi.getAccountDetails(1000);
         assertEquals(response.status(), 404, "The status code is not as expected");
+        assertTrue(response.text().contains("Status 404 – Not Found"), "Response text mismatch:" +response.text());
     }
 }

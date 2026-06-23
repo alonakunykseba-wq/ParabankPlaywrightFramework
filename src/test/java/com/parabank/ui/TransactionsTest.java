@@ -15,6 +15,7 @@ import io.qameta.allure.Description;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class TransactionsTest extends BaseUITestWithRegistration {
 
@@ -65,7 +66,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
 
     // The test is currently disabled because the call returns 200 instead of 400
     // and posts transfer with negative amount. This is a known bug of the API.
-    @ Test( enabled = false, description = "TC-11 (Hybrid) negativeTransferAmountShouldBeRejectedWithBadRequest")
+    @ Test(enabled = false, description = "TC-11 (Hybrid) negativeTransferAmountShouldBeRejectedWithBadRequest")
     @Description("""
                 Verifies that posting a transfer with negative amount via API is not possible.
                 Expected Result: The backend API returns Status code 400.
@@ -87,5 +88,6 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         APIResponse transferResponse = accountApiService
                 .postTransferWithSession(checkingAccountId,savingsAccountId, amount);
         assertEquals(transferResponse.status(), 400, "The status code is not as expected");
+        assertTrue(transferResponse.text().contains("Status 400 – Bad Request"), "Response text mismatch:" + transferResponse.text());
     }
 }
