@@ -13,6 +13,7 @@ public class MainPage {
     private final Locator findTransactionsLink;
     private final Locator updateContactInfoLink;
     private final Locator transferFundsLink;
+    private final Locator requestLoanLink;
     private final Locator signOutLink;
 
     public MainPage(Page page) {
@@ -22,6 +23,7 @@ public class MainPage {
         this.findTransactionsLink = page.getByRole(LINK, LocatorUtil.name("Find Transactions"));
         this.updateContactInfoLink = page.getByRole(LINK, LocatorUtil.name("Update Contact Info"));
         this.transferFundsLink = page.getByRole(LINK, LocatorUtil.name("Transfer Funds"));
+        this.requestLoanLink = page.getByRole(LINK, LocatorUtil.name("Request Loan"));
         this.signOutLink = page.getByRole(LINK, LocatorUtil.name("Log Out"));
     }
 
@@ -51,5 +53,10 @@ public class MainPage {
     public TransferFundsPage openTransferFundsPage(){
         transferFundsLink.click();
         return new TransferFundsPage(page);
+    }
+
+    public RequestLoanPage openRequestLoanPage(){
+        requestLoanLink.click();
+        return new RequestLoanPage(page);
     }
 }

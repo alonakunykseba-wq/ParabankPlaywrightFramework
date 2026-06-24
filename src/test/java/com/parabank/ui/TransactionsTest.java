@@ -103,8 +103,8 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                         depositResponse.text().contains(String.valueOf(amount)) &&
                         depositResponse.text().contains(String.valueOf(checkingAccountId)),
                 "Response text mismatch");
-        APIResponse accountDetailsResponse = accountApiService.getAccountDetailsWithSession(checkingAccountId);
-        AccountDetailsResponse deserializedAccountResponse = accountApiService.deserializeResponse(accountDetailsResponse);
-        assertEquals(deserializedAccountResponse.getBalance(), initialBalance + amount);
+        APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(checkingAccountId);
+        AccountDetailsResponse accountDetailsResponseJson = accountApiService.deserializeResponse(accountDetailsResponseRaw);
+        assertEquals(accountDetailsResponseJson.getBalance(), initialBalance + amount, "Account balance mismatch");
     }
 }
