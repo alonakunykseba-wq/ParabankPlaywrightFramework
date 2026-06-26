@@ -22,7 +22,7 @@ public class DataGenerator {
                 .zipCode(randomAddress.getZipCode())
                 .phoneNumber(getFaker().phoneNumber().phoneNumberInternational())
                 .ssn(getFaker().idNumber().ssnValid())
-                .username(getFaker().credentials().username())
+                .username(getFaker().credentials().username() + getFaker().number().digits(4))
                 .password(ConfigurationManager.getProperty("defaultTestPassword"))
                 .build();
     }
