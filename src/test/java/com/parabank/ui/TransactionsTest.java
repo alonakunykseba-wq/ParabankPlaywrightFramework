@@ -7,6 +7,7 @@ import com.parabank.pages.*;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.models.api.AccountDetailsResponse;
+import com.parabank.utils.api.JacksonUtil;
 import org.testng.annotations.Test;
 import io.qameta.allure.Description;
 
@@ -47,8 +48,8 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 .openAccountsOverview()
                 .getDefaultAccountId();
         AccountApiService accountApiService = new AccountApiService(page.context().request());
-        APIResponse accountDetailsResponseJson = accountApiService.getAccountDetailsWithSession(defaultAccountId);
-        AccountDetailsResponse accountDetails = accountApiService.deserializeResponse(accountDetailsResponseJson);
+        APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(defaultAccountId);
+        AccountDetailsResponse accountDetails = JacksonUtil.deserialize(accountDetailsResponseRaw, AccountDetailsResponse.class);
         double accountBalanceBeforeBill = accountDetails.getBalance();
         APIResponse payBillResponse = accountApiService.payBillWithSession(defaultAccountId, billAmount);
         assertEquals(payBillResponse.status(), 200);
@@ -99,12 +100,11 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         AccountApiService accountApiService = new AccountApiService(page.context().request());
         APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, amount);
         assertEquals(depositResponse.status(), 200, "Status code mismatch: 200 is expected");
-        assertTrue(depositResponse.text().contains("Successfully deposited") &&
-                        depositResponse.text().contains(String.valueOf(amount)) &&
-                        depositResponse.text().contains(String.valueOf(checkingAccountId)),
-                "Response text mismatch");
-        APIResponse accountDetailsResponse = accountApiService.getAccountDetailsWithSession(checkingAccountId);
-        AccountDetailsResponse deserializedAccountResponse = accountApiService.deserializeResponse(accountDetailsResponse);
-        assertEquals(deserializedAccountResponse.getBalance(), initialBalance + amount);
+        assertTrue(depositResponse.text().contains("Successfully deposited"), "Response text mismatch");
+        assertTrue(depositResponse.text().contains(String.valueOf(amount)), "Response text mismatch in amount value");
+        assertTrue(depositResponse.text().contains(String.valueOf(checkingAccountId)), "Response text mismatch in account Id");
+        APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(checkingAccountId);
+        AccountDetailsResponse accountDetailsResponseJson = JacksonUtil.deserialize(accountDetailsResponseRaw,AccountDetailsResponse.class);
+        assertEquals(accountDetailsResponseJson.getBalance(), initialBalance + amount, "Account balance mismatch");
     }
 }

@@ -33,7 +33,7 @@ critical end-to-end user journeys.
     * **Goal:** To ensure that once a new savings account is created, the UI table in the "Accounts Overview" page
       correctly updates to show the new account and balance.
 * **Test 7 (Hybrid):** "accountDetailsSchemaShouldMatchExpectations"
-    * **Goal:** GET customer accounts, choose any account, verify account details for a specific account ID, and assert
+    * **Goal:** Via UI create a new user and retrieve default account ID, via API -verify account details for a specific account ID, and assert
       the JSON schema matches expectations.
 * **Test 8 (API - Negative):** "requestForNonExistentAccountShouldReturnNotFoundError"
     * **Goal:** GET account details with a non-existing account ID and assert a "404" response is returned.
@@ -59,10 +59,11 @@ critical end-to-end user journeys.
 
 ## Module 5: Loan Processing
 
-* **Test 13 (UI):** "loanApplicationWithHighDownPaymentShouldBeApproved"
-    * **Goal:** Apply for a loan with a high down payment and assert the UI displays an Approved status.
-* **Test 14 (API):** "loanApplicationWithZeroDownPaymentShouldBeDenied"
-    * **Goal:** Apply for a massive loan with a $0 down payment via API and assert the backend logic enforces a Denied
+* **Test 13 (Hybrid):** "loanRequestWithinAvailableFundsShouldBeApproved"
+    * **Goal:** Via UI - Apply for a loan within available funds, assert the UI displays an Approved status and retrieve loan account id.
+    * Via API -verify that account type is LOAN and balance is equal to request loan amount.
+* **Test 14 (API):** "loanRequestBeyondAvailableFundsShouldBeDenied"
+    * **Goal:** Apply for a massive loan via API and assert the backend logic enforces a Denied
       status.
 
 ## Module 6: Customer Profile Management

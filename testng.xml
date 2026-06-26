@@ -8,6 +8,7 @@
             <class name="com.parabank.ui.AccountManagementTest"/>
             <class name="com.parabank.ui.TransactionsTest"/>
             <class name="com.parabank.api.AccountManagementApiTest"/>
+            <class name="com.parabank.ui.LoanTest"/>
         </classes>
     </test>
 </suite>
