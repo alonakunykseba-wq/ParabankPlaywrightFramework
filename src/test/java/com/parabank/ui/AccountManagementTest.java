@@ -9,6 +9,7 @@ import com.parabank.pages.AccountsOverviewPage;
 import com.parabank.pages.MainPage;
 import com.parabank.pages.NewAccountPage;
 import com.parabank.pages.OpenAccountSuccessPage;
+import com.parabank.utils.api.JacksonUtil;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
@@ -63,7 +64,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
         AccountApiService accountApi = new AccountApiService(page.context().request());
         APIResponse response = accountApi.getAccountDetailsWithSession(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");
-        AccountDetailsResponse accountDetailsResponse = accountApi.deserializeResponse(response);
+        AccountDetailsResponse accountDetailsResponse = JacksonUtil.deserialize(response, AccountDetailsResponse.class);
         assertTrue(accountDetailsResponse.getId() > 0);
         assertTrue(accountDetailsResponse.getCustomerId() > 0);
         assertFalse(accountDetailsResponse.getType().isEmpty());
