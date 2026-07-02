@@ -59,4 +59,9 @@ public class MainPage {
         requestLoanLink.click();
         return new RequestLoanPage(page);
     }
+
+    public UpdateProfileSuccessPage openUpdateProfilePage(){
+        updateContactInfoLink.click();
+        return new UpdateProfileSuccessPage(page);
+    }
 }
