@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Parabank Playwright Suite" parallel="classes" thread-count="2" verbose="2">
+<suite name="Parabank Playwright Suite"
+       parallel="classes" thread-count="2" verbose="2">
+    <listeners>
+        <listener class-name="com.parabank.utils.listeners.TestFailureListener"/>
+    </listeners>
     <test name="Parabank Functional Tests">
         <classes>
             <class name="com.parabank.ui.RegistrationTest"/>

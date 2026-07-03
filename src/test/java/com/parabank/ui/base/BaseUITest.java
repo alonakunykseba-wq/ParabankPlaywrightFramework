@@ -19,11 +19,6 @@ public class BaseUITest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            page.screenshot(new Page.ScreenshotOptions()
-                    .setPath(Paths.get("target/screenshots/" + result.getName() + ".png"))
-                    .setFullPage(true));
-        }
         PlaywrightFactory.removeThreadLocals();
     }
 }
