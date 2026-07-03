@@ -40,7 +40,7 @@ jobs:
         run: |
           docker run -d -p 8080:8080 parasoft/parabank
           echo "Waiting for Parabank server to be fully ready..."
-          timeout 120s bash -c 'until [ "$(curl -s -L -o /dev/null -w "%{http_code}" http://localhost:8080/parabank/services/bank/accounts/12345)" == "200" ]; do sleep 2; done'
+          timeout 120s bash -c 'until [ "$(curl -s -L -o /dev/null -w "%{http_code}" http://localhost:8080/parabank/)" == "200" ]; do sleep 2; done'
 
       # 8. RUN THE TESTS
       - name: Run TestNG Suite
