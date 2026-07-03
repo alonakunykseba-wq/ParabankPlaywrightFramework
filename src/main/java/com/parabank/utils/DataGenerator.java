@@ -6,7 +6,10 @@ import com.parabank.models.ui.User;
 import net.datafaker.Faker;
 
 public class DataGenerator {
-    private static final ThreadLocal<Faker> fakerThread = ThreadLocal.withInitial(Faker::new);
+    private static final ThreadLocal<Faker> fakerThread = ThreadLocal.withInitial(() -> {
+        long seed = System.nanoTime() ^ Thread.currentThread().getId();
+        return new Faker(new java.util.Random(seed));
+    });
 
     private static Faker getFaker() {
         return fakerThread.get();
@@ -22,7 +25,7 @@ public class DataGenerator {
                 .zipCode(randomAddress.getZipCode())
                 .phoneNumber(getFaker().phoneNumber().cellPhone())
                 .ssn(getFaker().idNumber().ssnValid())
-                .username(getFaker().credentials().username() + getFaker().number().digits(4))
+                .username(getFaker().credentials().username() + getFaker().number().digits(5))
                 .password(ConfigurationManager.getProperty("defaultTestPassword"))
                 .build();
     }
