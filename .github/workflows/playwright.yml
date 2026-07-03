@@ -39,8 +39,8 @@ jobs:
       - name: Start Parabank Local Server (Docker)
         run: |
           docker run -d -p 8080:8080 parasoft/parabank
-          echo "Waiting 25 seconds for Parabank Tomcat server to boot up..."
-          sleep 25
+          echo "Waiting for Parabank server to be fully ready..."
+          timeout 60s bash -c 'until [ "$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/parabank/index.htm)" == "200" ]; do sleep 2; done'
 
       # 8. RUN THE TESTS
       - name: Run TestNG Suite

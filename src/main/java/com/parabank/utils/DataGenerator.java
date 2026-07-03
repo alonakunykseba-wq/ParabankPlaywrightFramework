@@ -20,7 +20,7 @@ public class DataGenerator {
                 .city(randomAddress.getCity())
                 .state(randomAddress.getState())
                 .zipCode(randomAddress.getZipCode())
-                .phoneNumber(getFaker().phoneNumber().phoneNumberInternational())
+                .phoneNumber(getFaker().phoneNumber().cellPhone())
                 .ssn(getFaker().idNumber().ssnValid())
                 .username(getFaker().credentials().username() + getFaker().number().digits(4))
                 .password(ConfigurationManager.getProperty("defaultTestPassword"))
