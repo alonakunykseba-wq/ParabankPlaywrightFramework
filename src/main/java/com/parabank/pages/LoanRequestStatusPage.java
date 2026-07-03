@@ -13,7 +13,7 @@ public class LoanRequestStatusPage extends BaseConfirmationPage{
         super(page);
     }
 
-    public Locator successHeadingLocator() {
+    public Locator successHeadingLocator(){
         return page.getByRole(HEADING, LocatorUtil.name("Loan Request Processed"));
     }
 

@@ -4,7 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.parabank.models.ui.User;
 
-public class RegistrationPage extends BaseRegistrationPage {
+public class RegistrationPage extends BaseProfileInfoPage {
 
     private final Locator ssnField;
     private final Locator usernameField;

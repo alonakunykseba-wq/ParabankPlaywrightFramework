@@ -31,12 +31,12 @@ public class MainPage {
         return page.locator("h1.title");
     }
 
-    public LoginPage submitLogOut(){
+    public LoginPage submitLogOut() {
         signOutLink.click();
         return new LoginPage(page);
     }
 
-    public Locator welcomeUserLocator(){
+    public Locator welcomeUserLocator() {
         return page.locator("p.smallText");
     }
 
@@ -45,23 +45,23 @@ public class MainPage {
         return new AccountsOverviewPage(page);
     }
 
-    public NewAccountPage openNewAccountPage(){
+    public NewAccountPage openNewAccountPage() {
         openNewAccountLink.click();
         return new NewAccountPage(page);
     }
 
-    public TransferFundsPage openTransferFundsPage(){
+    public TransferFundsPage openTransferFundsPage() {
         transferFundsLink.click();
         return new TransferFundsPage(page);
     }
 
-    public RequestLoanPage openRequestLoanPage(){
+    public RequestLoanPage openRequestLoanPage() {
         requestLoanLink.click();
         return new RequestLoanPage(page);
     }
 
-    public UpdateProfileSuccessPage openUpdateProfilePage(){
+    public UpdateProfilePage openUpdateProfilePage() {
         updateContactInfoLink.click();
-        return new UpdateProfileSuccessPage(page);
+        return new UpdateProfilePage(page);
     }
 }
