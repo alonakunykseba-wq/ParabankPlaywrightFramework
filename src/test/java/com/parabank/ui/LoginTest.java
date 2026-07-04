@@ -14,7 +14,7 @@ public class LoginTest extends BaseUITestWithRegistration {
 
     @BeforeMethod
     private void setPreconditions() {
-        MainPage overviewPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         overviewPage.submitLogOut();
     }
 
@@ -24,7 +24,7 @@ public class LoginTest extends BaseUITestWithRegistration {
             Expected Result: The user is redirected to the Accounts Overview page and the Welcome banner is displayed.
             """)
     public void userWithValidCredentialsShouldBeAbleToLogin() {
-        MainPage mainPage = new LoginPage(page)
+        MainPage mainPage = new LoginPage(PlaywrightFactory.getPage())
                 .loginWithValidCredentials(user.getUsername(), user.getPassword());
         String fullName = user.getFirstName() + " " + user.getLastName();
         assertThat(mainPage.welcomeUserLocator())
@@ -38,7 +38,7 @@ public class LoginTest extends BaseUITestWithRegistration {
             """)
    public void loginWithInvalidCredentialsShouldDisplayErrorMessage(){
         String expectedMessage= "The username and password could not be verified.";
-        LoginPage loginPage = new LoginPage(page)
+        LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage())
                 .loginWithInvalidCredentials(user.getUsername(), "123");
         assertThat(loginPage.errorTitleLocator())
                 .hasText("Error!");
