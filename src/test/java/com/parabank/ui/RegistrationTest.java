@@ -1,5 +1,6 @@
 package com.parabank.ui;
 
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITest;
 import com.parabank.models.ui.User;
 import com.parabank.pages.MainPage;
@@ -20,7 +21,7 @@ public class RegistrationTest extends BaseUITest {
             """)
     public void userWithAllRequiredFieldsShouldBeRegistered() {
         User user = DataGenerator.generateRandomUser();
-        LoginPage loginPage = new LoginPage(page);
+        LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage());
         MainPage overviewPage = loginPage
                 .openRegistrationForm()
                 .registerNewUserWithSuccess(user);
@@ -36,7 +37,7 @@ public class RegistrationTest extends BaseUITest {
             """)
     public void registrationWithMissingFieldsShouldDisplayValidationErrors() {
         User user = DataGenerator.generateRandomUser();
-        LoginPage loginPage = new LoginPage(page);
+        LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage());
         user.setLastName("");
         RegistrationPage regPage  = loginPage
                 .openRegistrationForm()

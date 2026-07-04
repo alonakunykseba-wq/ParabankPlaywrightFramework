@@ -34,6 +34,7 @@ public class RegistrationPage extends BaseProfileInfoPage {
 
     public MainPage registerNewUserWithSuccess(User user) {
         fillFormAndSubmit(user);
+        page.waitForLoadState(LoadState.NETWORKIDLE);
         return new MainPage(page);
     }
 

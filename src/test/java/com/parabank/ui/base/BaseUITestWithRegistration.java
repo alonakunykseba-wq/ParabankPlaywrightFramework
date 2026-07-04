@@ -12,15 +12,26 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 
 public class BaseUITestWithRegistration extends BaseUITest {
 
+    private static final ThreadLocal<User> threadUser = new ThreadLocal<>();
+
+    public User getRegisteredUser() {
+        return threadUser.get();
+    }
+
     @BeforeMethod
     public void setupTestState() {
         User user = DataGenerator.generateRandomUser();
+        threadUser.set(user);
         LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage());
         MainPage mainPage = loginPage
                 .openRegistrationForm()
                 .registerNewUserWithSuccess(user);
         String expectedText = String.format("Welcome %s", user.getUsername());
-        assertThat(mainPage.welcomeMessageLocator())
-                .hasText(expectedText);
+        assertThat(mainPage.welcomeMessageLocator()).hasText(expectedText);
+    }
+
+    @AfterMethod
+    public void cleanUpUserThreadState() {
+        threadUser.remove();
     }
 }

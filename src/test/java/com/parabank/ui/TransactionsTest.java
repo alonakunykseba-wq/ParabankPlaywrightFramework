@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
 import com.parabank.apiservices.AccountApiService;
 import com.parabank.pages.*;
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.models.api.AccountDetailsResponse;
@@ -23,7 +24,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             Expected Result: The UI dropdowns populate correctly, the transfer processes, and the system displays a "Transfer Complete!" success message.
             """)
     public void fundsTransferBetweenAccountsShouldBeSuccessful() {
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountNumber = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
@@ -43,11 +44,11 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             """)
     public void billPaymentViaApiShouldDeductCorrectAmountFromUiBalance() throws JsonProcessingException {
         double billAmount = 15.5;
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int defaultAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(defaultAccountId);
         AccountDetailsResponse accountDetails = JacksonUtil.deserialize(accountDetailsResponseRaw, AccountDetailsResponse.class);
         double accountBalanceBeforeBill = accountDetails.getBalance();
@@ -71,7 +72,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
 
     public void negativeTransferAmountShouldBeRejectedWithBadRequest() {
         double amount = -15.00;
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
@@ -79,7 +80,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 .openNewAccountPage()
                 .openNewAccount("savings");
         int savingsAccountId = successPage.getAccountNumber();
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse transferResponse = accountApiService
                 .postTransferWithSession(checkingAccountId, savingsAccountId, amount);
         assertEquals(transferResponse.status(), 400, "The status code is not as expected");
@@ -94,10 +95,10 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             """)
     void apiDepositShouldCorrectlyIncreaseAccountBalance() throws JsonProcessingException {
         double amount = 10.5;
-        AccountsOverviewPage overview = new MainPage(page).openAccountsOverview();
+        AccountsOverviewPage overview = new MainPage(PlaywrightFactory.getPage()).openAccountsOverview();
         int checkingAccountId = overview.getDefaultAccountId();
         double initialBalance = overview.getAccountBalance(checkingAccountId);
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, amount);
         assertEquals(depositResponse.status(), 200, "Status code mismatch: 200 is expected");
         assertTrue(depositResponse.text().contains("Successfully deposited"), "Response text mismatch");
