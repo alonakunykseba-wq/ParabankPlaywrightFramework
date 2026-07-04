@@ -23,11 +23,9 @@ public class BaseUITestWithRegistration extends BaseUITest {
         User user = DataGenerator.generateRandomUser();
         threadUser.set(user);
         LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage());
-        
         MainPage mainPage = loginPage
                 .openRegistrationForm()
                 .registerNewUserWithSuccess(user);
-
         String expectedText = String.format("Welcome %s", user.getUsername());
         assertThat(mainPage.welcomeMessageLocator()).hasText(expectedText);
     }
