@@ -28,6 +28,7 @@ public class RegistrationPage extends BaseProfileInfoPage {
         passwordField.fill(user.getPassword());
         confirmField.fill(user.getPassword());
         registerButton.click();
+        page.waitForNetworkIdle(); 
     }
 
     public MainPage registerNewUserWithSuccess(User user) {
