@@ -10,14 +10,12 @@ import org.testng.annotations.BeforeMethod;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-
 public class BaseUITestWithRegistration extends BaseUITest {
-    protected User user;
 
     @BeforeMethod
     public void setupTestState() {
-        this.user = DataGenerator.generateRandomUser();
-        LoginPage loginPage = new LoginPage(page);
+        User user = DataGenerator.generateRandomUser();
+        LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage());
         MainPage mainPage = loginPage
                 .openRegistrationForm()
                 .registerNewUserWithSuccess(user);

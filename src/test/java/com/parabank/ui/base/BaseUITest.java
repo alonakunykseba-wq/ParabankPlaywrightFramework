@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import java.nio.file.Paths;
 
 public class BaseUITest {
-    protected Page page;
 
     @BeforeMethod
     public void setup() {
