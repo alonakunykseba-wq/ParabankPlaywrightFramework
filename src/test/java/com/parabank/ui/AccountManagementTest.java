@@ -24,7 +24,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
             Expected Result: The account is opened successfully, and a dynamically generated numeric Account ID is displayed to the user.
             """)
     public void newCheckingAccountShouldBeSuccessfullyOpened() {
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
         OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("checking");
         assertThat(successPage.successHeadingLocator())
@@ -42,7 +42,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
             """)
     public void newSavingsAccountShouldAppearInOverviewWithCorrectBalance() {
         String expectedBalance = "$100.00";
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         NewAccountPage newAccountPage = mainPage.openNewAccountPage();
         OpenAccountSuccessPage successPage = newAccountPage.openNewAccount("savings");
         int savingsAccount = successPage.getAccountNumber();
@@ -59,7 +59,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
              Expected Result: The API responds with a 200 OK and the expected JSON structure containing valid ID, Customer ID, Account Type, and Balance fields.
             """)
     public void accountDetailsSchemaShouldMatchExpectations() throws JsonProcessingException {
-        AccountsOverviewPage accountsOverview = new MainPage(page).openAccountsOverview();
+        AccountsOverviewPage accountsOverview = new MainPage(PlaywrightFactory.getPage()).openAccountsOverview();
         int accountId = accountsOverview.getDefaultAccountId();
         AccountApiService accountApi = new AccountApiService(page.context().request());
         APIResponse response = accountApi.getAccountDetailsWithSession(accountId);
