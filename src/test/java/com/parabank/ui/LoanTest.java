@@ -8,6 +8,7 @@ import com.parabank.models.api.AccountDetailsResponse;
 import com.parabank.models.api.LoanResponseDenied;
 import com.parabank.pages.LoanRequestStatusPage;
 import com.parabank.pages.MainPage;
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 import com.parabank.utils.api.JacksonUtil;
 import io.qameta.allure.Description;
@@ -35,7 +36,7 @@ public class LoanTest extends BaseUITestWithRegistration {
         int loanAccountId = loanRequestStatusPage.getAccountNumber();
         assertThat(loanRequestStatusPage.successHeadingLocator()).isVisible();
         assertEquals(loanRequestStatusPage.getLoanRequestStatus().trim(), "Approved", "Loan Request status mismatch");
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse loanAccountResponseRaw = accountApiService.getAccountDetailsWithSession(loanAccountId);
         AccountDetailsResponse loanAccountResponseJson = JacksonUtil.deserialize(loanAccountResponseRaw, AccountDetailsResponse.class );
         assertEquals(loanAccountResponseJson.getType(), "LOAN", "Account type mismatch");
@@ -54,12 +55,12 @@ public class LoanTest extends BaseUITestWithRegistration {
                 .getDefaultAccountId();
         double loanAmount = 10000.00;
         double downPayment = 10.00;
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         AccountDetailsResponse loanAccountResponseJson = JacksonUtil.deserialize(
                 accountApiService.getAccountDetailsWithSession(checkingAccountId), AccountDetailsResponse.class
         );
         int customerId = loanAccountResponseJson.getCustomerId();
-        LoanApiService loanApiService = new LoanApiService(page.context().request());
+        LoanApiService loanApiService = new LoanApiService(PlaywrightFactory.getPage().context().request());
         LoanApiService.LoanRequest loanRequest = new LoanApiService.LoanRequest(
                 customerId,
                 loanAmount,

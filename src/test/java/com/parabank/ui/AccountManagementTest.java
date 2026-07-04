@@ -3,6 +3,7 @@ package com.parabank.ui;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
 import com.parabank.apiservices.AccountApiService;
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 import com.parabank.models.api.AccountDetailsResponse;
 import com.parabank.pages.AccountsOverviewPage;
@@ -61,7 +62,7 @@ public class AccountManagementTest extends BaseUITestWithRegistration {
     public void accountDetailsSchemaShouldMatchExpectations() throws JsonProcessingException {
         AccountsOverviewPage accountsOverview = new MainPage(PlaywrightFactory.getPage()).openAccountsOverview();
         int accountId = accountsOverview.getDefaultAccountId();
-        AccountApiService accountApi = new AccountApiService(page.context().request());
+        AccountApiService accountApi = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse response = accountApi.getAccountDetailsWithSession(accountId);
         assertEquals(response.status(), 200, "The returned code is not as expected");
         AccountDetailsResponse accountDetailsResponse = JacksonUtil.deserialize(response, AccountDetailsResponse.class);

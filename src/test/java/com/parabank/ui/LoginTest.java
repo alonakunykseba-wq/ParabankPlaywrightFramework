@@ -1,5 +1,6 @@
 package com.parabank.ui;
 
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.pages.MainPage;
@@ -14,7 +15,7 @@ public class LoginTest extends BaseUITestWithRegistration {
 
     @BeforeMethod
     private void setPreconditions() {
-        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
+        MainPage overviewPage = new MainPage(PlaywrightFactory.getPage());
         overviewPage.submitLogOut();
     }
 
@@ -25,8 +26,8 @@ public class LoginTest extends BaseUITestWithRegistration {
             """)
     public void userWithValidCredentialsShouldBeAbleToLogin() {
         MainPage mainPage = new LoginPage(PlaywrightFactory.getPage())
-                .loginWithValidCredentials(user.getUsername(), user.getPassword());
-        String fullName = user.getFirstName() + " " + user.getLastName();
+                .loginWithValidCredentials(getRegisteredUser().getUsername(), getRegisteredUser().getPassword());
+        String fullName = getRegisteredUser().getFirstName() + " " + getRegisteredUser().getLastName();
         assertThat(mainPage.welcomeUserLocator())
                 .containsText(fullName);
     }
@@ -39,7 +40,7 @@ public class LoginTest extends BaseUITestWithRegistration {
    public void loginWithInvalidCredentialsShouldDisplayErrorMessage(){
         String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage())
-                .loginWithInvalidCredentials(user.getUsername(), "123");
+                .loginWithInvalidCredentials(getRegisteredUser().getUsername(), "123");
         assertThat(loginPage.errorTitleLocator())
                 .hasText("Error!");
         assertThat(loginPage.errorMessageLocator())

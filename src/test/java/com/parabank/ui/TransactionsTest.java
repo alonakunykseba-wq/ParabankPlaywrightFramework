@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.playwright.APIResponse;
 import com.parabank.apiservices.AccountApiService;
 import com.parabank.pages.*;
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.models.api.AccountDetailsResponse;
@@ -47,7 +48,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         int defaultAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(defaultAccountId);
         AccountDetailsResponse accountDetails = JacksonUtil.deserialize(accountDetailsResponseRaw, AccountDetailsResponse.class);
         double accountBalanceBeforeBill = accountDetails.getBalance();
@@ -79,7 +80,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 .openNewAccountPage()
                 .openNewAccount("savings");
         int savingsAccountId = successPage.getAccountNumber();
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse transferResponse = accountApiService
                 .postTransferWithSession(checkingAccountId, savingsAccountId, amount);
         assertEquals(transferResponse.status(), 400, "The status code is not as expected");
@@ -97,7 +98,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         AccountsOverviewPage overview = new MainPage(PlaywrightFactory.getPage()).openAccountsOverview();
         int checkingAccountId = overview.getDefaultAccountId();
         double initialBalance = overview.getAccountBalance(checkingAccountId);
-        AccountApiService accountApiService = new AccountApiService(page.context().request());
+        AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, amount);
         assertEquals(depositResponse.status(), 200, "Status code mismatch: 200 is expected");
         assertTrue(depositResponse.text().contains("Successfully deposited"), "Response text mismatch");

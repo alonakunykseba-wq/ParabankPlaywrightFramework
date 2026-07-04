@@ -1,5 +1,6 @@
 package com.parabank.ui;
 
+import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITest;
 import com.parabank.models.ui.User;
 import com.parabank.pages.MainPage;
