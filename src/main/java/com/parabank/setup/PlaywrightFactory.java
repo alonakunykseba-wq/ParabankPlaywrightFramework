@@ -51,7 +51,7 @@ public class PlaywrightFactory {
 
     public static void removeThreadLocals() {
         if (pageThread.get() != null) {
-            pageThread.get().close;
+            pageThread.get().close();
             pageThread.remove();
         }
         if (browserContextThread.get() != null) {
