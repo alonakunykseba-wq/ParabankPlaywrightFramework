@@ -11,6 +11,7 @@ public class DataGenerator {
         return new Faker(new java.util.Random(seed));
     });
 
+
     private static Faker getFaker() {
         return fakerThread.get();
     }
