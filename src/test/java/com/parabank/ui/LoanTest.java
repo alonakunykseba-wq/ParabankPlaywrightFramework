@@ -23,7 +23,7 @@ public class LoanTest extends BaseUITestWithRegistration {
             Expected Result: loan request is approved, a new loan account is created, the loan account balance equal to the requested loan amount
             """)
     void loanRequestWithinAvailableFundsShouldBeApproved() throws JsonProcessingException {
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
@@ -48,7 +48,7 @@ public class LoanTest extends BaseUITestWithRegistration {
             Expected Result:
             """)
     void loanRequestBeyondAvailableFundsShouldBeDenied() throws JsonProcessingException {
-        MainPage mainPage = new MainPage(page);
+        MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
