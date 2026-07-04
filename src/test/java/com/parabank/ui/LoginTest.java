@@ -38,7 +38,7 @@ public class LoginTest extends BaseUITestWithRegistration {
             Expected Result: The error message is displayed, user stayed on the main page.
             """)
    public void loginWithInvalidCredentialsShouldDisplayErrorMessage(){
-        String expectedMessage= "An internal error has occurred and has been logged.";
+        String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage())
                 .loginWithInvalidCredentials(getRegisteredUser().getUsername(), "123");
         assertThat(loginPage.errorTitleLocator())
