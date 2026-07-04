@@ -2,6 +2,7 @@ package com.parabank.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.LoadState;
 import com.parabank.models.ui.User;
 
 public class RegistrationPage extends BaseProfileInfoPage {
@@ -28,7 +29,7 @@ public class RegistrationPage extends BaseProfileInfoPage {
         passwordField.fill(user.getPassword());
         confirmField.fill(user.getPassword());
         registerButton.click();
-        page.waitForNetworkIdle(); 
+        page.waitForLoadState(LoadState.NETWORKIDLE);
     }
 
     public MainPage registerNewUserWithSuccess(User user) {
