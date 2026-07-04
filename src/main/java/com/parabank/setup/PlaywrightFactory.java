@@ -51,6 +51,7 @@ public class PlaywrightFactory {
 
     public static void removeThreadLocals() {
         if (pageThread.get() != null) {
+            pageThread.get().close;
             pageThread.remove();
         }
         if (browserContextThread.get() != null) {
@@ -63,7 +64,6 @@ public class PlaywrightFactory {
         }
         if (playwrightThread.get() != null) {
             playwrightThread.get().close();
-
             playwrightThread.remove();
         }
     }
