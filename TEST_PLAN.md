@@ -8,6 +8,62 @@ critical end-to-end user journeys.
 
 ---
 
+## Risk-Based Test Plan
+
+### Likelihood Scale:
+| Score | Label | Meaning |
+| :---: | :--- | :--- |
+| 1 | Rare | Unlikely to occur. Stable code, no recent changes, proven technology |
+| 2 | Unlikely | Could occur but probably will not. Some complexity but well-tested |
+| 3 | Possible | Might occur. Moderate complexity, some changes, typical integration |
+| 4 | Likely | Probably will occur. New code, complex logic, new dependencies |
+| 5 | Almost Certain | Will occur. Untested paths, known fragile areas, experimental features |
+
+### Impact Scale:
+| Score | Label | Meaning |
+| :---: | :--- | :--- |
+| 1 | Negligible | Minor inconvenience. Cosmetic issues, rarely used features |
+| 2 | Minor | Some users affected. Workarounds exist. No data loss |
+| 3 | Moderate | Significant functionality affected. Many users impacted. Manual workarounds possible |
+| 4 | Major | Core functionality broken. Business operations affected. Customer complaints |
+| 5 | Critical | Revenue loss, data corruption, regulatory violation, security breach, public failure |
+
+### Risk Category:
+| Risk Category | Score Range | Testing Approach |
+| :--- | :---: | :--- |
+| Critical | 20-25 | Comprehensive testing. All scenarios, edge cases, negative tests. Multiple test types. |
+| High | 12-19 | Thorough testing. Main scenarios plus key edge cases. Strong regression coverage. Run on every PR / Smoke test. |
+| Medium | 6-11 | Standard testing. Core functionality, run in nightly regressions |
+| Low | 1-5 | Basic testing manually or occasionally. |
+
+### Test Matrix:
+| Test ID | Scenario Description | Identified Risks | Probability (1-5) | Impact (1-5) | Total Risk Score (P×I) | Mitigation Action |
+| :--- | :--- | :--- | :---: | :---: | :---: | :--- |
+| TC-01 | userWithAllRequiredFieldsShouldBeRegistered | User registration fails | 3 | 5 | 15 (High) | run with every PR, smoke testing scope. |
+| TC-02 | registrationWithMissingFieldsShouldDisplayValidationErrors | User with empty mandatory fields can register | 2 | 5 | 10 (Medium) | part of a weekly regression. Data-Driven Test: testing each missing mandatory field independently. |
+| TC-03 | userWithValidCredentialsShouldBeAbleToLogin | User with valid credentials cannot log in to their account | 3 | 5 | 15 (High) | run with every PR, smoke testing scope. |
+| TC-04 | loginWithInvalidCredentialsShouldDisplayErrorMessage | Users don’t have error message displayed | 3 | 3 | 9 (Medium) | part of a weekly regression. Data-Driven Test covering invalid username, wrong password, empty fields, SQL injection. |
+| TC-05 | newCheckingAccountShouldBeSuccessfullyOpened | Account creation fails (e.g. unable to select/submit checking account). | 2 | 5 | 10 (Medium) | Part of weekly regression. |
+| TC-06 | newSavingsAccountShouldAppearInOverviewWithCorrectBalance | Incorrect balance can be displayed | 2 | 5 | 10 (Medium) | Part of a weekly regression |
+| TC-07 | accountDetailsSchemaShouldMatchExpectations | Schema of response for account details request can differ from specification | 3 | 4 | 12 (High) | run with every PR, smoke testing scope. |
+| TC-08 | requestForNonExistentAccountShouldReturnNotFoundError | Error can have different code or text (e.g. 500 error instead of 404). | 3 | 3 | 9 (Medium) | Part of a weekly regression |
+| TC-09 | fundsTransferBetweenAccountsShouldBeSuccessful | Transfer fails | 3 | 4 | 12 (High) | run with every PR, smoke testing scope. |
+| TC-10 | billPaymentViaApiShouldDeductCorrectAmountFromUiBalance | Inaccurate calculation may happen | 3 | 3 | 9 (Medium) | Part of a weekly regression |
+| TC-11 | negativeTransferAmountShouldBeRejectedWithBadRequest | Transfer may be successful. Error can have different code or text | 2 | 3 | 6 (Medium) | Part of a weekly regression |
+| TC-12 | apiDepositShouldCorrectlyIncreaseAccountBalance | Inaccurate calculation may happen | 3 | 3 | 9 (Medium) | Part of a weekly regression |
+| TC-13 | loanRequestWithinAvailableFundsShouldBeApproved | Incorrect status of request may happen | 3 | 4 | 12 (High) | run with every PR, smoke testing scope. |
+| TC-14 | loanRequestBeyondAvailableFundsShouldBeDenied | The loan request may be approved when it shouldn’t be approved. | 3 | 5 | 15 (High) | run with every PR, smoke testing scope. Implement Data-Driven Test with several limit options. |
+| TC-15 | customerContactInfoUpdateShouldBeSuccessful | Updating customer info may fail. | 2 | 3 | 6 (Medium) | Part of a weekly regression |
+| TC-16 | profileUpdateViaUiShouldPersistInBackendDatabase | Backend Database is not updated | 2 | 3 | 6 (Medium) | Part of a weekly regression |
+| TC-17 | transactionSearchByIdShouldFindMatchingRecord | Transaction cannot be found despite correct ID is provided. | 2 | 3 | 6 (Medium) | Part of a weekly regression |
+| TC-18 | filteringTransactionsByAmountShouldReturnMatchingRecords | The amount value of returned transactions doesn’t match the filter (lowest amount is lower or the largest amount is larger than filter inputs) | 2 | 2 | 4 (Low) | Testing occasionally |
+| TC-19 | filteringTransactionsByMonthAndTypeShouldReturnMatchingRecords | Only one filter condition works (amount or type) | 2 | 2 | 4 (Low) | Testing occasionally |
+| TC-20 | filteringTransactionsByDateRangeShouldReturnMatchingRecords | The date of returned transactions doesn’t match the filter (oldest transaction is older or the newest transaction is newer than filter inputs) | 2 | 2 | 4 (Low) | Testing occasionally |
+| TC-21 | filteringTransactionsBySpecificDateShouldReturnMatchingRecords | The date of returned transaction doesn’t math the filter inpout. | 2 | 2 | 4 (Low) | Testing occasionally |
+| TC-22 | filteringTransactionsByInvalidDateRangeShouldReturnEmptyList | No protection from providing invalid range | 2 | 1 | 2 | 4 (Low) | Testing occasionally |
+
+---
+
 ## Module 1: Authentication & Registration
 
 * **Test 1 (UI):** "userWithAllRequiredFieldsShouldBeRegistered"
