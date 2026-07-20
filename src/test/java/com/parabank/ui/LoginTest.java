@@ -32,12 +32,12 @@ public class LoginTest extends BaseUITestWithRegistration {
                 .containsText(fullName);
     }
 
-    @Test(description = "TC-04: Login attempt with invalid credentials should show an error message")
+    @Test(description = "TC-04: Login attempt with invalid credentials should fail and show an error message")
     @Description("""
             Verifies that user with invalid credentials cannot  log in.
             Expected Result: The error message is displayed, user stayed on the main page.
             """)
-   public void loginWithInvalidCredentialsShouldDisplayErrorMessage(){
+   public void loginWithInvalidCredentialsShouldFail(){
         String expectedMessage= "The username and password could not be verified.";
         LoginPage loginPage = new LoginPage(PlaywrightFactory.getPage())
                 .loginWithInvalidCredentials(getRegisteredUser().getUsername(), "123");
