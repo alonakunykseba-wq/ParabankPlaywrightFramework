@@ -20,7 +20,7 @@ critical end-to-end user journeys.
 
 * **Test 3 (UI):** "userWithValidCredentialsShouldBeAbleToLogin"
     * **Goal:** To verify that an existing user can log in with valid credentials and access the accounts overview.
-* **Test 4 (UI):** "loginWithInvalidCredentialsShouldDisplayErrorMessage"
+* **Test 4 (UI):** "loginWithInvalidCredentialsShouldFail"
     * **Goal:** To verify that attempting to log in with an incorrect username or password displays the appropriate
       error message.
 
