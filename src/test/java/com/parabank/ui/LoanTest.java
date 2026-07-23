@@ -12,12 +12,23 @@ import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 import com.parabank.utils.api.JacksonUtil;
 import io.qameta.allure.Description;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.testng.Assert.*;
 
 public class LoanTest extends BaseUITestWithRegistration {
+
+    @DataProvider(name ="loanAmountData")
+    Object[][] getLoanAmountData(){
+        return new Object[][]{
+                {2999.00},
+                {3500.00},
+                {5001.00}
+                };
+        }
+
     @Test(description = "TC-13 (Hybrid): loanRequestWithinAvailableFundsShouldBeApproved")
     @Description("""
             Verifies that loan request with amount within available funds is approved.
@@ -43,17 +54,17 @@ public class LoanTest extends BaseUITestWithRegistration {
         assertEquals(loanAccountResponseJson.getBalance(), loanAmount, "Loan account balance mismatch");
     }
 
-    @Test(description = "TC-14 (Negative): loanRequestBeyondAvailableFundsShouldBeDenied")
+    @Test(description = "TC-14 (Negative): loanRequestBeyondAvailableFundsShouldBeDenied",
+    dataProvider = "loanAmountData")
     @Description("""
             Verifies that a massive loan request is declined.
             Expected Result:
             """)
-    void loanRequestBeyondAvailableFundsShouldBeDenied() throws JsonProcessingException {
+    void loanRequestBeyondAvailableFundsShouldBeDenied(double loanAmount) throws JsonProcessingException {
         MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        double loanAmount = 10000.00;
         double downPayment = 10.00;
         AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         AccountDetailsResponse loanAccountResponseJson = JacksonUtil.deserialize(
