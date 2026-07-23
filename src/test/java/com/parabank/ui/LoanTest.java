@@ -40,7 +40,7 @@ public class LoanTest extends BaseUITestWithRegistration {
                 .openAccountsOverview()
                 .getDefaultAccountId();
         double loanAmount = 500.00;
-        double downPayment = 10.00;
+        double downPayment = loanAmount * 0.10;
         LoanRequestStatusPage loanRequestStatusPage = mainPage
                 .openRequestLoanPage()
                 .submitLoanApplication(loanAmount, downPayment, checkingAccountId);
@@ -65,7 +65,7 @@ public class LoanTest extends BaseUITestWithRegistration {
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        double downPayment = 10.00;
+        double downPayment = loanAmount * 0.10;
         AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         AccountDetailsResponse loanAccountResponseJson = JacksonUtil.deserialize(
                 accountApiService.getAccountDetailsWithSession(checkingAccountId), AccountDetailsResponse.class
