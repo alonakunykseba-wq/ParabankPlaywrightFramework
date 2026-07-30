@@ -1,4 +1,4 @@
-package com.parabank.utils.listeners;
+package com.parabank.utils;
 import com.microsoft.playwright.Page;
 import com.parabank.setup.PlaywrightFactory;
 import org.testng.IConfigurationListener;
