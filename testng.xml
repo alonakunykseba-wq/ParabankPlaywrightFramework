@@ -3,7 +3,7 @@
 <suite name="Parabank Playwright Suite"
        parallel="classes" thread-count="2" verbose="2">
     <listeners>
-        <listener class-name="com.parabank.utils.listeners.TestFailureListener"/>
+        <listener class-name="com.parabank.utils.TestFailureListener"/>
     </listeners>
     <test name="Parabank Functional Tests">
         <classes>
