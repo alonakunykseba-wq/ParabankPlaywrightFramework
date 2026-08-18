@@ -4,17 +4,18 @@ import com.microsoft.playwright.*;
 import com.parabank.utils.ConfigurationManager;
 
 public class PlaywrightFactory {
-    private static final ThreadLocal<Playwright> playwrightThread = new ThreadLocal<>();
-    private static final ThreadLocal<Browser> browserThread = new ThreadLocal<>();
+
+
+    private static Playwright playwright;
+    private static Browser browser;
     private static final ThreadLocal<BrowserContext> browserContextThread = new ThreadLocal<>();
     private static final ThreadLocal<Page> pageThread = new ThreadLocal<>();
 
     public static Playwright getPlaywright() {
-        return playwrightThread.get();
-    }
-
-    public static Browser getBrowser() {
-        return browserThread.get();
+        if (playwright == null) {
+            playwright = Playwright.create();
+        }
+        return playwright;
     }
 
     public static BrowserContext getBrowserContext() {
@@ -25,28 +26,45 @@ public class PlaywrightFactory {
         return pageThread.get();
     }
 
-    public static Page initBrowser(String browserName) {
-        playwrightThread.set(Playwright.create());
-
-        switch (browserName.toLowerCase()) {
-            case "chromium":
-                browserThread.set(getPlaywright().chromium().launch());
-                break;
-            case "firefox":
-                browserThread.set(getPlaywright().firefox().launch());
-                break;
-            case "chrome":
-                browserThread.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported browser name: " + browserName);
+    public static void initSuite(String browserName) {
+        if (playwright == null) {
+            playwright = Playwright.create();
         }
-
-        browserContextThread.set(getBrowser().newContext());
+        if (browser == null) {
+            switch (browserName.toLowerCase()) {
+                case "chromium":
+                    browser = playwright.chromium().launch();
+                    break;
+                case "firefox":
+                    browser = playwright.firefox().launch();
+                    break;
+                case "chrome":
+                    browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome"));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser name: " + browserName);
+            }
+        }
+    }
+    public static Page initBrowser(String browserName) {
+       if (browser == null) {
+           initSuite(browserName);
+       }
+        browserContextThread.set(browser.newContext());
         pageThread.set(getBrowserContext().newPage());
-
         getPage().navigate(ConfigurationManager.getProperty("baseUrl"));
         return getPage();
+    }
+
+    public static void closeSuite(){
+        if (browser != null) {
+            browser.close();
+            browser = null;
+        }
+        if (playwright != null) {
+            playwright.close();
+            playwright = null;
+        }
     }
 
     public static void removeThreadLocals() {
@@ -57,14 +75,6 @@ public class PlaywrightFactory {
         if (browserContextThread.get() != null) {
             browserContextThread.get().close();
             browserContextThread.remove();
-        }
-        if (browserThread.get() != null) {
-            browserThread.get().close();
-            browserThread.remove();
-        }
-        if (playwrightThread.get() != null) {
-            playwrightThread.get().close();
-            playwrightThread.remove();
         }
     }
 }

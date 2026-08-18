@@ -8,9 +8,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class AiTriageEngine {
-    private static final String LLM_API_URL = "http://localhost:11434/api/generate";
 
-    public static String analyzeFailure(String stackTrace, String ariaTree) {
+    public static String analyzeFailure(String stackTrace, String htmlContent) {
         try {
             String systemPrompt = """
     You are an expert Automation QA engineer debugging a Playwright Java test failure.
@@ -24,7 +23,7 @@ public class AiTriageEngine {
     
     Do not suggest the broken selector from the stack trace. Do not use JavaScript or await keywords.
     """;
-            String userContent = "### STACK TRACE:\n" + stackTrace + "\n\n### HTML SOURCE:\n" + ariaTree;
+            String userContent = "### STACK TRACE:\n" + stackTrace + "\n\n### HTML SOURCE:\n" + htmlContent;
 
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("model", "llama3.2");
@@ -33,7 +32,7 @@ public class AiTriageEngine {
 
             try(HttpClient client = HttpClient.newHttpClient()) {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(LLM_API_URL))
+                        .uri(URI.create(ConfigurationManager.getProperty("ollamaApiUrl")))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
                         .build();
