@@ -5,8 +5,7 @@ import com.parabank.utils.AiTriageEngine;
 import com.parabank.utils.ConfigurationManager;
 import org.json.JSONObject;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -17,17 +16,16 @@ import static com.parabank.setup.PlaywrightFactory.getPage;
 
 public class BaseUITest {
 
-    @BeforeMethod
-    public void setup() {
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod() {
         PlaywrightFactory.initBrowser(ConfigurationManager.getProperty("browser"));
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown(ITestResult result) {
+    public void afterMethod(ITestResult result) {
         try {
             if (result.getStatus() == ITestResult.FAILURE) {
                 try {
-                    // Safeguard: Ensure the page is initialized and open before capturing state
                     if (getPage() != null && !getPage().isClosed()) {
                         String htmlContent = getPage().content();
                         JSONObject failurePayload = new JSONObject();
@@ -52,4 +50,5 @@ public class BaseUITest {
             PlaywrightFactory.removeThreadLocals();
         }
     }
+
 }

@@ -10,6 +10,9 @@ public class PlaywrightFactory {
     private static final ThreadLocal<Page> pageThread = new ThreadLocal<>();
 
     public static Playwright getPlaywright() {
+        if (playwrightThread.get() == null) {
+            playwrightThread.set(Playwright.create());
+        }
         return playwrightThread.get();
     }
 
@@ -26,28 +29,30 @@ public class PlaywrightFactory {
     }
 
     public static Page initBrowser(String browserName) {
-        playwrightThread.set(Playwright.create());
-
-        switch (browserName.toLowerCase()) {
-            case "chromium":
-                browserThread.set(getPlaywright().chromium().launch());
-                break;
-            case "firefox":
-                browserThread.set(getPlaywright().firefox().launch());
-                break;
-            case "chrome":
-                browserThread.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported browser name: " + browserName);
+        if (playwrightThread.get() == null) {
+            playwrightThread.set(Playwright.create());
         }
-
+        if (browserThread.get() == null) {
+            switch (browserName.toLowerCase()) {
+                case "chromium":
+                    browserThread.set(getPlaywright().chromium().launch());
+                    break;
+                case "firefox":
+                    browserThread.set(getPlaywright().firefox().launch());
+                    break;
+                case "chrome":
+                    browserThread.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser name: " + browserName);
+            }
+        }
         browserContextThread.set(getBrowser().newContext());
         pageThread.set(getBrowserContext().newPage());
 
         getPage().navigate(ConfigurationManager.getProperty("baseUrl"));
         return getPage();
-    }
+        }
 
     public static void removeThreadLocals() {
         if (pageThread.get() != null) {
@@ -57,14 +62,6 @@ public class PlaywrightFactory {
         if (browserContextThread.get() != null) {
             browserContextThread.get().close();
             browserContextThread.remove();
-        }
-        if (browserThread.get() != null) {
-            browserThread.get().close();
-            browserThread.remove();
-        }
-        if (playwrightThread.get() != null) {
-            playwrightThread.get().close();
-            playwrightThread.remove();
         }
     }
 }
