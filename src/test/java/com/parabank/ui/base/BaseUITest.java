@@ -16,11 +16,6 @@ import static com.parabank.setup.PlaywrightFactory.getPage;
 
 public class BaseUITest {
 
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
-        PlaywrightFactory.initSuite(ConfigurationManager.getProperty("browser"));
-    }
-
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod() {
         PlaywrightFactory.initBrowser(ConfigurationManager.getProperty("browser"));
@@ -56,8 +51,4 @@ public class BaseUITest {
         }
     }
 
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite (){
-        PlaywrightFactory.closeSuite();
-    }
 }
