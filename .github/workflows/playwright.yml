@@ -26,12 +26,6 @@ jobs:
       - name: Install Playwright Browsers and System Dependencies
         run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
 
-      - name: Start Parabank Local Server (Docker)
-        run: |
-          docker run -d -p 8080:8080 parasoft/parabank
-          echo "Waiting for Parabank server to be fully ready..."
-          timeout 120s bash -c 'until [ "$(curl -s -L -o /dev/null -w "%{http_code}" http://localhost:8080/parabank/)" == "200" ]; do sleep 2; done'
-
       - name: Setup Local Ollama and Download Llama3.2
         run: |
           curl -fsSL https://ollama.com/install.sh | sh

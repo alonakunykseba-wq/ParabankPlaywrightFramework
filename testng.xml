@@ -5,6 +5,7 @@
     <listeners>
         <listener class-name="com.parabank.utils.TestFailureListener"/>
         <listener class-name="com.parabank.utils.AnnotationTransformer"/>
+        <listener class-name="com.parabank.utils.SuiteListener"/>
     </listeners>
     <test name="Parabank Functional Tests">
         <classes>
