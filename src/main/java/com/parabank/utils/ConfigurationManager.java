@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigurationManager {
-    private static Properties properties;
+    private static final Properties properties;
 
     static {
         properties = new Properties();
@@ -21,4 +21,7 @@ public class ConfigurationManager {
         return properties.getProperty(key);
     }
 
+    public static void setProperty(String key, String value) {
+      properties.setProperty(key, value);
+    }
 }
