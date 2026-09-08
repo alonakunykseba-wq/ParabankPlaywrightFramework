@@ -8,6 +8,7 @@ import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.models.api.AccountDetailsResponse;
+import com.parabank.utils.TestDataRepository;
 import com.parabank.utils.api.JacksonUtil;
 import org.testng.annotations.Test;
 import io.qameta.allure.Description;
@@ -24,6 +25,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             Expected Result: The UI dropdowns populate correctly, the transfer processes, and the system displays a "Transfer Complete!" success message.
             """)
     public void fundsTransferBetweenAccountsShouldBeSuccessful() {
+        double transferAmount = TestDataRepository.getAmount("transferAmount");
         MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountNumber = mainPage
                 .openAccountsOverview()
@@ -33,7 +35,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 .openNewAccount("SAVINGS")
                 .getAccountNumber();
         TransferFundsPage transferPage = mainPage.openTransferFundsPage();
-        transferPage.createTransfer(10.5, checkingAccountNumber, savingsAccountNumber);
+        transferPage.createTransfer(transferAmount, checkingAccountNumber, savingsAccountNumber);
         assertThat(transferPage.transferSuccessHeadingLocator()).containsText("Transfer Complete!");
     }
 
@@ -43,7 +45,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                 Expected Result: The Frontend UI balance perfectly reflects the backend API deduction.
             """)
     public void billPaymentViaApiShouldDeductCorrectAmountFromUiBalance() throws JsonProcessingException {
-        double billAmount = 15.5;
+        double billAmount = TestDataRepository.getAmount("billAmount");
         MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int defaultAccountId = mainPage
                 .openAccountsOverview()
@@ -54,11 +56,9 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         double accountBalanceBeforeBill = accountDetails.getBalance();
         APIResponse payBillResponse = accountApiService.payBillWithSession(defaultAccountId, billAmount);
         assertEquals(payBillResponse.status(), 200);
-        String defaultAccountBalance = mainPage
+        double accountBalanceAfterBill = mainPage
                 .openAccountsOverview()
-                .balanceLocator(defaultAccountId)
-                .textContent();
-        double accountBalanceAfterBill = Double.parseDouble(defaultAccountBalance.replace("$", ""));
+                .getAccountBalanceForAccount(defaultAccountId);
         assertEquals(accountBalanceAfterBill, (accountBalanceBeforeBill - billAmount), "account balance in web doesn't reflect bill amount deduction");
     }
 
@@ -71,7 +71,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
             """)
 
     public void negativeTransferAmountShouldBeRejectedWithBadRequest() {
-        double amount = -15.00;
+        double transferAmount = TestDataRepository.getAmount("transferNegativeAmount");
         MainPage mainPage = new MainPage(PlaywrightFactory.getPage());
         int checkingAccountId = mainPage
                 .openAccountsOverview()
@@ -82,7 +82,7 @@ public class TransactionsTest extends BaseUITestWithRegistration {
         int savingsAccountId = successPage.getAccountNumber();
         AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
         APIResponse transferResponse = accountApiService
-                .postTransferWithSession(checkingAccountId, savingsAccountId, amount);
+                .postTransferWithSession(checkingAccountId, savingsAccountId, transferAmount);
         assertEquals(transferResponse.status(), 400, "The status code is not as expected");
         assertTrue(transferResponse.text().contains("Status 400 – Bad Request"), "Response text mismatch:" + transferResponse.text());
     }
@@ -94,18 +94,18 @@ public class TransactionsTest extends BaseUITestWithRegistration {
                and the updated account details retrieved via the API show that the balance has increased by the deposited amount.
             """)
     void apiDepositShouldCorrectlyIncreaseAccountBalance() throws JsonProcessingException {
-        double amount = 10.5;
+        double depositAmount = TestDataRepository.getAmount("depositAmount");
         AccountsOverviewPage overview = new MainPage(PlaywrightFactory.getPage()).openAccountsOverview();
         int checkingAccountId = overview.getDefaultAccountId();
-        double initialBalance = overview.getAccountBalance(checkingAccountId);
+        double initialBalance = overview.getAccountBalanceForAccount(checkingAccountId);
         AccountApiService accountApiService = new AccountApiService(PlaywrightFactory.getPage().context().request());
-        APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, amount);
+        APIResponse depositResponse = accountApiService.postDepositWithSession(checkingAccountId, depositAmount);
         assertEquals(depositResponse.status(), 200, "Status code mismatch: 200 is expected");
         assertTrue(depositResponse.text().contains("Successfully deposited"), "Response text mismatch");
-        assertTrue(depositResponse.text().contains(String.valueOf(amount)), "Response text mismatch in amount value");
+        assertTrue(depositResponse.text().contains(String.valueOf(depositAmount)), "Response text mismatch in depositAmount value");
         assertTrue(depositResponse.text().contains(String.valueOf(checkingAccountId)), "Response text mismatch in account Id");
         APIResponse accountDetailsResponseRaw = accountApiService.getAccountDetailsWithSession(checkingAccountId);
         AccountDetailsResponse accountDetailsResponseJson = JacksonUtil.deserialize(accountDetailsResponseRaw,AccountDetailsResponse.class);
-        assertEquals(accountDetailsResponseJson.getBalance(), initialBalance + amount, "Account balance mismatch");
+        assertEquals(accountDetailsResponseJson.getBalance(), initialBalance + depositAmount, "Account balance mismatch");
     }
 }
