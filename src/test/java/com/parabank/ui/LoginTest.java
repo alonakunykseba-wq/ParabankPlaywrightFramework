@@ -5,6 +5,7 @@ import com.parabank.ui.base.BaseUITestWithRegistration;
 
 import com.parabank.pages.MainPage;
 import com.parabank.pages.LoginPage;
+import com.parabank.utils.TestDataRepository;
 import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -22,17 +23,9 @@ public class LoginTest extends BaseUITestWithRegistration {
 
     @DataProvider(name ="invalidLoginCredentials")
     public Object[][] getInvalidCredentials(){
-        return new Object[][]{
-                {"[VALID_USER]", " "},
-                {"[VALID_USER]", "password"},
-                {" ", "[VALID_PASSWORD]"},
-                {"Abrakadabra", "[VALID_PASSWORD]"},
-                {"' OR '1'='1", "' OR '1'='1"},
-                {"admin' --", "anything"},
-                {"' OR 1=1 --", "password"},
-                {"') OR ('1'='1", "') OR ('1'='1"}
-        };
+        return TestDataRepository.getInvalidCredentials();
     }
+
     @Test(description = "TC-03 (UI): User with valid credentials should be able to log in successfully")
     @Description(""" 
             Verifies that a registered user can successfully log in with valid credentials.

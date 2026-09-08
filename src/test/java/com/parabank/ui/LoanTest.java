@@ -10,6 +10,7 @@ import com.parabank.pages.LoanRequestStatusPage;
 import com.parabank.pages.MainPage;
 import com.parabank.setup.PlaywrightFactory;
 import com.parabank.ui.base.BaseUITestWithRegistration;
+import com.parabank.utils.TestDataRepository;
 import com.parabank.utils.api.JacksonUtil;
 import io.qameta.allure.Description;
 import org.testng.annotations.DataProvider;
@@ -22,11 +23,7 @@ public class LoanTest extends BaseUITestWithRegistration {
 
     @DataProvider(name ="loanAmountData")
     Object[][] getLoanAmountData(){
-        return new Object[][]{
-                {2999.00},
-                {3500.00},
-                {5001.00}
-                };
+        return TestDataRepository.getLoanAmount();
         }
 
     @Test(description = "TC-13 (Hybrid): loanRequestWithinAvailableFundsShouldBeApproved")
@@ -39,7 +36,7 @@ public class LoanTest extends BaseUITestWithRegistration {
         int checkingAccountId = mainPage
                 .openAccountsOverview()
                 .getDefaultAccountId();
-        double loanAmount = 500.00;
+        double loanAmount = TestDataRepository.getAmount("loanAmount");
         double downPayment = loanAmount * 0.10;
         LoanRequestStatusPage loanRequestStatusPage = mainPage
                 .openRequestLoanPage()

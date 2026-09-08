@@ -3,6 +3,8 @@ package com.parabank.ui.base;
 import com.parabank.setup.PlaywrightFactory;
 import com.parabank.utils.AiTriageEngine;
 import com.parabank.utils.ConfigurationManager;
+import com.parabank.utils.SuiteListener;
+import com.parabank.utils.TestFailureListener;
 import org.json.JSONObject;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -13,13 +15,14 @@ import java.nio.file.Paths;
 
 import static com.parabank.setup.PlaywrightFactory.getPage;
 
-
+@Listeners({SuiteListener.class, TestFailureListener.class})
 public class BaseUITest {
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod() {
         PlaywrightFactory.initBrowser(ConfigurationManager.getProperty("browser"));
     }
+
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result) {
