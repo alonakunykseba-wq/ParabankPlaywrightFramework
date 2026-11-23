@@ -3,7 +3,7 @@ package com.parabank.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-public class BaseConfirmationPage {
+public abstract class BaseConfirmationPage {
     protected final Page page;
     protected final Locator accountIdLocator;
 
