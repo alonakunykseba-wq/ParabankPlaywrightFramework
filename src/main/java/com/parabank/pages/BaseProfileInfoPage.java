@@ -4,8 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.parabank.models.ui.User;
 
-public abstract class BaseProfileInfoPage {
-    protected final Page page;
+public abstract class BaseProfileInfoPage extends BasePage{
     private final Locator firstNameField;
     private final Locator lastNameField;
     private final Locator addressField;
@@ -15,7 +14,7 @@ public abstract class BaseProfileInfoPage {
     private final Locator phoneNumberField;
 
     public BaseProfileInfoPage(Page page) {
-        this.page = page;
+        super(page);
         this.firstNameField = page.locator("#customer\\.firstName");
         this.lastNameField = page.locator("#customer\\.lastName");
         this.addressField = page.locator("#customer\\.address\\.street");

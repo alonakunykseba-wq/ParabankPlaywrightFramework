@@ -6,16 +6,14 @@ import com.parabank.utils.LocatorUtil;
 
 import static com.microsoft.playwright.options.AriaRole.*;
 
-public class RequestLoanPage {
-    private final Page page;
-
+public class RequestLoanPage extends BasePage{
     private final Locator loanAmountField;
     private final Locator downPaymentField;
     private final Locator fromAccountField;
     private final Locator applyLoanButton;
 
     public RequestLoanPage(Page page){
-        this.page = page;
+        super(page);
         this.loanAmountField = page.locator("#amount");
         this.downPaymentField = page.locator("#downPayment");
         this.fromAccountField = page.locator("#fromAccountId");
