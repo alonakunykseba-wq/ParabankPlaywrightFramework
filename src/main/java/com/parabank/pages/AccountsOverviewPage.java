@@ -9,11 +9,11 @@ import java.util.Map;
 
 import static com.microsoft.playwright.options.AriaRole.*;
 
-public class AccountsOverviewPage {
-    private final Page page;
+public class AccountsOverviewPage extends BasePage{
+
 
     public AccountsOverviewPage(Page page) {
-        this.page = page;
+        super(page);
     }
 
     public Locator accountNumberLocator(int accountNumber){

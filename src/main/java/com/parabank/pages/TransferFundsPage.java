@@ -5,15 +5,14 @@ import com.microsoft.playwright.Page;
 import com.parabank.utils.LocatorUtil;
 import static com.microsoft.playwright.options.AriaRole.*;
 
-public class TransferFundsPage {
-    private final Page page;
+public class TransferFundsPage extends BasePage {
     private final Locator amountField;
     private final Locator fromAccountField;
     private final Locator toAccountField;
     private final Locator transferButton;
 
     public TransferFundsPage(Page page){
-        this.page = page;
+        super(page);
         this.amountField = page.locator("#amount");
         this.fromAccountField = page.locator("#fromAccountId");
         this.toAccountField = page.locator("#toAccountId");

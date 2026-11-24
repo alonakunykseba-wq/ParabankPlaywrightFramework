@@ -3,12 +3,11 @@ package com.parabank.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-public class UpdateProfileSuccessPage {
-    private final Page page;
+public class UpdateProfileSuccessPage extends BasePage {
     private final Locator title;
 
     public UpdateProfileSuccessPage(Page page) {
-        this.page = page;
+        super(page);
         this.title = page.locator("#updateProfileResult .title");
     }
 

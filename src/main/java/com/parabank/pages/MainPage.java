@@ -6,8 +6,7 @@ import com.parabank.utils.LocatorUtil;
 
 import static com.microsoft.playwright.options.AriaRole.*;
 
-public class MainPage {
-    private final Page page;
+public class MainPage extends BasePage {
     private final Locator openNewAccountLink;
     private final Locator accountsOverviewLink;
     private final Locator findTransactionsLink;
@@ -17,7 +16,7 @@ public class MainPage {
     private final Locator signOutLink;
 
     public MainPage(Page page) {
-        this.page = page;
+        super(page);
         this.openNewAccountLink = page.getByRole(LINK, LocatorUtil.name("Open New Account"));
         this.accountsOverviewLink = page.getByRole(LINK, LocatorUtil.name("Accounts Overview"));
         this.findTransactionsLink = page.getByRole(LINK, LocatorUtil.name("Find Transactions"));
