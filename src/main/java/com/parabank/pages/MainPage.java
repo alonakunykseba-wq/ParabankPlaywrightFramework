@@ -31,7 +31,7 @@ public class MainPage extends BasePage {
     }
 
     public LoginPage submitLogOut() {
-        signOutLink.click();
+        safeClick(signOutLink);
         return new LoginPage(page);
     }
 
@@ -40,27 +40,27 @@ public class MainPage extends BasePage {
     }
 
     public AccountsOverviewPage openAccountsOverview() {
-        accountsOverviewLink.click();
+        safeClick(accountsOverviewLink);
         return new AccountsOverviewPage(page);
     }
 
     public NewAccountPage openNewAccountPage() {
-        openNewAccountLink.click();
+        safeClick(openNewAccountLink);
         return new NewAccountPage(page);
     }
 
     public TransferFundsPage openTransferFundsPage() {
-        transferFundsLink.click();
+        safeClick(transferFundsLink);
         return new TransferFundsPage(page);
     }
 
     public RequestLoanPage openRequestLoanPage() {
-        requestLoanLink.click();
+        safeClick(requestLoanLink);
         return new RequestLoanPage(page);
     }
 
     public UpdateProfilePage openUpdateProfilePage() {
-        updateContactInfoLink.click();
+        safeClick(updateContactInfoLink);
         return new UpdateProfilePage(page);
     }
 }

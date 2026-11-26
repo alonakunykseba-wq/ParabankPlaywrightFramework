@@ -8,11 +8,10 @@ public abstract class BaseConfirmationPage extends BasePage{
 
     public BaseConfirmationPage(Page page){
         super(page);
-        this.accountIdLocator = page.locator("a[id='newAccountId']");
+        this.accountIdLocator = page.locator("a#newAccountId");
     }
 
     public int getAccountNumber() {
-        accountIdLocator.waitFor();
-        return Integer.parseInt(accountIdLocator.textContent());
+        return Integer.parseInt(safeGetText(accountIdLocator));
     }
 }

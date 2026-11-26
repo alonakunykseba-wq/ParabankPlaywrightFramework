@@ -24,11 +24,11 @@ public class RegistrationPage extends BaseProfileInfoPage {
 
     private void fillFormAndSubmit(User user) {
         fillPersonalData(user);
-        ssnField.fill(user.getSsn());
-        usernameField.fill(user.getUsername());
-        passwordField.fill(user.getPassword());
-        confirmField.fill(user.getPassword());
-        registerButton.click();
+        safeFill(ssnField,user.getSsn());
+        safeFill(usernameField,user.getUsername());
+        safeFill(passwordField,user.getPassword());
+        safeFill(confirmField,user.getPassword());
+        safeClick(registerButton);
         page.waitForLoadState(LoadState.NETWORKIDLE);
     }
 

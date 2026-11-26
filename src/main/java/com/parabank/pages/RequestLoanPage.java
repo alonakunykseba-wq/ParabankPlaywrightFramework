@@ -14,17 +14,17 @@ public class RequestLoanPage extends BasePage{
 
     public RequestLoanPage(Page page){
         super(page);
-        this.loanAmountField = page.locator("#amount");
+        this.loanAmountField = page.locator("input#amount");
         this.downPaymentField = page.locator("#downPayment");
         this.fromAccountField = page.locator("#fromAccountId");
         this.applyLoanButton = page.getByRole(BUTTON, LocatorUtil.name("Apply Now"));
     }
 
     public LoanRequestStatusPage submitLoanApplication(double loanAmount, double downPayment, int fromAccountId){
-        loanAmountField.fill(String.valueOf(loanAmount));
-        downPaymentField.fill(String.valueOf(downPayment));
-        fromAccountField.selectOption(String.valueOf(fromAccountId));
-        applyLoanButton.click();
+        safeFill(loanAmountField, String.valueOf(loanAmount));
+        safeFill(downPaymentField, String.valueOf(downPayment));
+        safeSelectOption(fromAccountField, String.valueOf(fromAccountId));
+        safeClick(applyLoanButton);
         return new LoanRequestStatusPage(page);
     }
 }

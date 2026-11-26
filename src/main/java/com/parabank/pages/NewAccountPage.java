@@ -20,9 +20,9 @@ public class NewAccountPage extends BasePage {
     }
 
     public OpenAccountSuccessPage openNewAccount(String accountType){
-        fromAccountIdOption.selectOption(new SelectOption().setIndex(0));
-        accountTypeList.selectOption(accountType.toUpperCase());
-        openNewAccountButton.click();
+        safeSelectOption(fromAccountIdOption, new SelectOption().setIndex(0));
+        safeSelectOption(accountTypeList, accountType.toUpperCase());
+        safeClick(openNewAccountButton);
         return new OpenAccountSuccessPage(page);
     }
 }

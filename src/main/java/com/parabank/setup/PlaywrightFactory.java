@@ -1,6 +1,7 @@
 package com.parabank.setup;
 
 import com.microsoft.playwright.*;
+import com.parabank.exceptions.ConfigurationException;
 import com.parabank.utils.ConfigurationManager;
 
 public class PlaywrightFactory {
@@ -44,7 +45,7 @@ public class PlaywrightFactory {
                     browserThread.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome")));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unsupported browser name: " + browserName);
+                    throw new ConfigurationException("Unsupported browser name: " + browserName + ". Supported browsers are: chromium, firefox, chrome");
             }
         }
         browserContextThread.set(getBrowser().newContext());

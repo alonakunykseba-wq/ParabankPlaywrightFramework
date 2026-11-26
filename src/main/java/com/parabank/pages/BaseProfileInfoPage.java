@@ -25,12 +25,12 @@ public abstract class BaseProfileInfoPage extends BasePage{
     }
 
     protected void fillPersonalData(User user) {
-        firstNameField.fill(user.getFirstName());
-        lastNameField.fill(user.getLastName());
-        addressField.fill(user.getAddress());
-        cityField.fill(user.getCity());
-        stateField.fill(user.getState());
-        zipCodeField.fill(user.getZipCode());
-        phoneNumberField.fill(user.getPhoneNumber());
+        safeFill(firstNameField,user.getFirstName());
+        safeFill(lastNameField,user.getLastName());
+        safeFill(addressField,user.getAddress());
+        safeFill(cityField,user.getCity());
+        safeFill(stateField,user.getState());
+        safeFill(zipCodeField,user.getZipCode());
+        safeFill(phoneNumberField,user.getPhoneNumber());
     }
 }

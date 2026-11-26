@@ -12,7 +12,6 @@ public class UpdateProfileSuccessPage extends BasePage {
     }
 
     public String getUpdateProfileResultTitle() {
-        title.waitFor();
-        return title.textContent();
+        return safeGetText(title);
     }
 }

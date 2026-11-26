@@ -24,7 +24,6 @@ public class LoanRequestStatusPage extends BaseConfirmationPage{
     }
 
     public String getLoanRequestStatus(){
-        loanRequestStatusLocator().waitFor();
-        return loanRequestStatusLocator().textContent();
+        return safeGetText(loanRequestStatusLocator());
     }
 }

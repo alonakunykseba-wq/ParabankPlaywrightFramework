@@ -1,4 +1,6 @@
 package com.parabank.utils;
+import com.parabank.exceptions.InvalidTestDataException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,9 @@ public class TestDataRepository {
     private final static double[] LOAN_DATA = {2999.00, 3500.00, 5001.00};
 
     public static Double getAmount(String transactionName){
+        if(!TRANSACTIONS_DATA.containsKey(transactionName)){
+            throw new InvalidTestDataException("Transaction" + transactionName + "was not found in TestDataRepository");
+        }
         return TRANSACTIONS_DATA.get(transactionName);
     }
 

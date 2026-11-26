@@ -14,16 +14,16 @@ public class TransferFundsPage extends BasePage {
     public TransferFundsPage(Page page){
         super(page);
         this.amountField = page.locator("#amount");
-        this.fromAccountField = page.locator("#fromAccountId");
+        this.fromAccountField = page.locator("select#fromAccountId");
         this.toAccountField = page.locator("#toAccountId");
         this.transferButton = page.getByRole(BUTTON, LocatorUtil.name("Transfer"));
     }
 
     public TransferFundsPage createTransfer(double transferAmount, int fromAccountId, int toAccountId){
-        amountField.fill(String.valueOf(transferAmount));
-        fromAccountField.selectOption(String.valueOf(fromAccountId));
-        toAccountField.selectOption(String.valueOf(toAccountId));
-        transferButton.click();
+        safeFill(amountField, String.valueOf(transferAmount));
+        safeSelectOption(fromAccountField, String.valueOf(fromAccountId));
+        safeSelectOption(toAccountField, String.valueOf(toAccountId));
+        safeClick(transferButton);
         return this;
     }
 

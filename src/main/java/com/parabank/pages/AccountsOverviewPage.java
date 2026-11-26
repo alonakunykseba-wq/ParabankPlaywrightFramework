@@ -31,8 +31,7 @@ public class AccountsOverviewPage extends BasePage{
     }
 
     public int getDefaultAccountId(){
-        defaultAccountIdLocator().waitFor();
-        return Integer.parseInt(defaultAccountIdLocator().textContent());
+       return Integer.parseInt(safeGetText(defaultAccountIdLocator()));
     }
 
     public double getAccountBalanceForAccount(int accountNumber) {
@@ -45,7 +44,7 @@ public class AccountsOverviewPage extends BasePage{
                 String accountBalance = row.locator("td").nth(1).textContent().replace("$", "").trim();
                 accountsMap.put(Integer.parseInt(accountId), Double.parseDouble(accountBalance));
             } catch (NumberFormatException e) {
-                System.out.println("The total balance row exception");
+                System.out.println("The total balance is not a number");
             }
         }
         return accountsMap.get(accountNumber);
