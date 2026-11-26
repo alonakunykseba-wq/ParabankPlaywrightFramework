@@ -14,7 +14,7 @@ public class UpdateProfilePage extends BaseProfileInfoPage {
 
     public UpdateProfileSuccessPage updateDataProfile(User user) {
         fillPersonalData(user);
-        updateProfileButton.click();
+        safeClick(updateProfileButton);
         return new UpdateProfileSuccessPage(page);
     }
 }

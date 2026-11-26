@@ -16,9 +16,9 @@ public class LoanApiService {
     public APIResponse postLoanRequestWithSession(LoanRequest loanRequest) {
         return request.post(ConfigurationManager.getProperty("baseApiUrl") + "/requestLoan",
                 HeaderUtil.withDefaultHeaders()
-                        .setQueryParam("customerId", loanRequest.getCustomerId())
+                        .setQueryParam("customerId", String.valueOf(loanRequest.getCustomerId()))
                         .setQueryParam("amount", String.valueOf(loanRequest.getAmount()))
                         .setQueryParam("downPayment", String.valueOf(loanRequest.getDownPayment()))
-                        .setQueryParam("fromAccountId", loanRequest.getFromAccountId()));
+                        .setQueryParam("fromAccountId", String.valueOf(loanRequest.getFromAccountId())));
     }
 }

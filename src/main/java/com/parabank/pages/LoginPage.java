@@ -21,14 +21,14 @@ public class LoginPage extends BasePage{
     }
 
     public RegistrationPage openRegistrationForm(){
-        registerLink.click();
+        safeClick(registerLink);
         return new RegistrationPage(page);
     }
 
     private void submitLogin(String username, String password){
-        usernameField.fill(username);
-        passwordField.fill(password);
-        logInButton.click();
+        safeFill(usernameField,username);
+        safeFill(passwordField,password);
+        safeClick(logInButton);
     }
 
     public MainPage loginWithValidCredentials(String username, String password){
